@@ -1,0 +1,30 @@
+<launch>
+<!-- This file launches the system identification process for the OWI Robot -->
+
+<!-- Load YAML file -->
+<rosparam file="$(find owi_control)/config/params.yaml" />
+
+<!-- Webcam -->
+<include file = "$(find usb_cam)/launch/usb_cam-test.launch" />
+
+<!-- Aruco marker recognition -->
+<include file = "$(find aruco_ros)/launch/quad.launch" />
+
+<!-- End Effector pose -->
+<node name = "object_position_tracking_node" pkg="marker_track" type="marker_track_node" output="log" />
+
+<!-- OWI system id node -->
+<node name = "owi_sys_id" pkg="owi_control" type="owi_sys_id_node" output="screen"/>
+
+<!-- Trajectory plotter -->
+<!-- <node name = "owi_trajectory_plotter" pkg="owi_control" type="owi_trajectory_node"/> -->
+
+<!-- Record Node -->
+<node name ="record_data_node" pkg="owi_control" type="owi_freq_record_node" output="screen" />
+
+<!-- Traj plotter ouput-->
+<!-- <node name="draw_traj" pkg="image_view" type="image_view" respawn="false" output="screen">
+<remap from="image" to="/traj_output" />
+</node> -->
+
+</launch>

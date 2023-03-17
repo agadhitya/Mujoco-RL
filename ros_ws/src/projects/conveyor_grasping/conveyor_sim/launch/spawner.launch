@@ -1,0 +1,7 @@
+<launch>
+  <rosparam command="load" file="$(find conveyor_sim)/config/spawner_settings.yaml" />
+  <rosparam command="load" file="$(find conveyor_sim)/config/desc_uploader.yaml" />
+
+  <node name="desc_uploader" pkg="ycb_models" type="object_description_uploader" />
+  <node name="spawner" pkg="conveyor_sim" type="conveyor_object_spawner" output="screen" />
+</launch>

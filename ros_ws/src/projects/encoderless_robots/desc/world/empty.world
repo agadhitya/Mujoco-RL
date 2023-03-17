@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+<sdf version="1.5">
+  <world name="default">
+    <!-- A global light source -->
+    <include>
+      <uri>model://sun</uri>
+    </include>
+    <include>
+      <uri>model://bookshelf</uri>
+      <pose>-0.242646 1.576792 0 0 0 0.440853</pose>
+    </include>
+    <include>
+      <uri>model://brick_box_3x1x3</uri>
+      <pose>-2.0 0 0 0 0 1.57</pose>
+    </include>
+    <include>
+      <uri>model://brick_box_3x1x3</uri>
+      <pose>-2.0 1.5 0 0 0 1.57</pose>
+    </include>
+    <include>
+      <uri>model://brick_box_3x1x3</uri>
+      <pose>-2.0 -1.5 0 0 0 1.57</pose>
+    </include>
+    <!-- A ground plane -->
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+  </world>
+</sdf>

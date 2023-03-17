@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>netft_utils</name>
+  <version>1.0.1</version>
+  <description>C++ class and ROS node for ATI force/torque sensors connected to a Netbox. Includes gravity compensation and transformations.</description>
+
+  <author email="alexvs@utexas.edu">Alex von Sternberg</author>
+  <author>Derek King</author>
+  <author>Andy Zelenak</author>
+
+  <maintainer email="andyz@utexas.edu">Andy Zelenak</maintainer>
+
+  <url type="website">http://wiki.ros.org/netft_utils</url>
+
+  <license>See License.txt</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>message_generation</build_depend>
+  <build_depend>geometry_msgs</build_depend>
+  <build_depend>diagnostic_updater</build_depend>
+  <build_depend>tf</build_depend>
+  <exec_depend>roscpp</exec_depend>
+  <exec_depend>message_runtime</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>diagnostic_updater</exec_depend>
+  <exec_depend>tf</exec_depend>
+
+  <export>
+
+  </export>
+</package>

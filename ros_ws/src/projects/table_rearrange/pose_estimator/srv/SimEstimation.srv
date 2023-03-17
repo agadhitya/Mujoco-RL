@@ -1,0 +1,9 @@
+string model_name
+float64 time_to_wait
+float64 err_x
+float64 err_y
+float64 err_z
+float64 err_angle_z
+---
+geometry_msgs/Pose pose
+float64 time

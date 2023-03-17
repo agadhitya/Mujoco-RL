@@ -1,0 +1,4 @@
+<launch>
+  <!-- Just launch node, no parameters needed YET -->
+  <node name="conveyor_object_despawner" type="conveyor_object_despawner" pkg="conveyor_sim" />
+</launch>

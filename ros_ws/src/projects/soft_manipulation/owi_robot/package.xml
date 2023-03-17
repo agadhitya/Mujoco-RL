@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>owi_robot</name>
+  <version>0.0.0</version>
+  <description>The owi_robot package</description>
+
+  <maintainer email="agandhi2@wpi.edu">abhinav</maintainer>
+  <license>TODO</license>
+  <!-- <url type="website">http://wiki.ros.org/owi_robot</url> -->
+  <author email="agandhi2@wpi.edu">Abhinav Gandhi</author>
+
+
+    <depend>roscpp</depend>
+    <depend>rospy</depend>
+    <depend>std_msgs</depend>
+    <depend>lusb</depend>
+
+    <build_depend>message_generation</build_depend>
+    <build_export_depend>message_generation</build_export_depend>
+    <buildtool_depend>catkin</buildtool_depend>
+    <exec_depend>message_runtime</exec_depend>
+
+
+  <export>
+    
+  </export>
+</package>

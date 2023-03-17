@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>vf_hand_controller</name>
+  <version>0.0.0</version>
+  <description>The vf_hand_controller package</description>
+
+  <maintainer email="asahin@todo.todo">fadi</maintainer>
+
+  <license>TODO</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <export>
+
+  </export>
+</package>

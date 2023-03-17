@@ -1,0 +1,4 @@
+# Parameters for low level control of figers
+
+high_friction: 10000.0
+low_friction: 0.01

@@ -1,0 +1,51 @@
+# A predefined initial arm pose (cartesian)
+init_pose: {
+  x_pos: 0.4,
+  y_pos: -0.2,
+  z_pos: 0.61,
+  x_orn: -0.5,
+  y_orn: -0.5,
+  z_orn: 0.5,
+  w_orn: -0.5
+}
+# A predefined grasp pose (cartesian)
+grasp_pose: {
+  x_pos: 0.4,
+  y_pos: -0.3,
+  z_pos: 0.61,
+  x_orn: -0.5,
+  y_orn: -0.5,
+  z_orn: 0.5,
+  w_orn: -0.5
+}
+# A predefined rest pose (cartesian)
+rest_pose: {
+  x_pos: 0.2,
+  y_pos: 0.0,
+  z_pos: 1.0,
+  x_orn: 0.0,
+  y_orn: 0.7071068,
+  z_orn: 0.0,
+  w_orn: 0.7071068
+}
+
+# Predefined joint angles for the initial arm pose
+init_joint_ref: {
+  J1: 2.0156612095450424,
+  J2: 1.6639027469686383,
+  J3: -2.1153816991145495,
+  J4: -2.863880220193969,
+  J5: 2.4433666579966324,
+  J6: 2.2370805736338397,
+  J7: 1.8662840214428833
+}
+# Predefined joint angles for the grasp pose
+grasp_joint_ref: {
+  J1: 1.544977023046842,
+  J2: 1.7196223148690422,
+  J3: -1.945884200962393,
+  J4: -2.4617404091035056,
+  J5: 2.686028192132982,
+  J6: 2.1718648679625083,
+  J7: 2.0050537573066336
+}

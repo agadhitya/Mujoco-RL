@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+
+  <!-- table parameters - used for object positioning -->
+  <arg name="table_height" value="0.45" />
+  <arg name="table_center" value="0.65" />
+  <arg name="table_width" value="1" />
+  <arg name="table_length" value="0.6" />
+
+  <!-- get gripper description -->
+  <param name="robot_description" command="$(find xacro)/xacro --inorder $(find vf-hand_description)/robots/vf_hand.urdf" />
+
+  <!-- launching gazebo -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="paused" value="true"/>
+    <arg name="verbose" value="true" />
+   </include>
+
+  <!-- spawn robot -->
+  <node name="spawn_vf_hand" pkg="gazebo_ros" type="spawn_model"
+  	args="-param robot_description -urdf -model vf_hand -x 0.48 -y 0 -z 0.48 -P 1.5708 -J J1 0.2 -J J2 0.2" />
+
+  <!-- spawn table -->
+  <node name="spawn_table_urdf" pkg="gazebo_ros" type="spawn_model"
+  	args="-file $(find manipulation_env)/desc/table_surface.urdf -urdf -model table_surface" />
+
+  <!-- spawn object -->
+  <node name="spawn_object" pkg="gazebo_ros" type="spawn_model"
+  	args="-file $(find manipulation_env)/desc/long_block.urdf -urdf -model object -z $(arg table_height) -x $(arg table_center)" />
+
+  <!-- launch joint state controllers -->
+  <include file="$(find gripper_controls)/launch/joint_state_controller.launch"/>
+  <!-- launch gripper controllers -->
+  <include file="$(find vf_hand_controller)/launch/main.launch"/>
+  <!-- launch gripper planners without namespace -->
+  <arg name="gripper_namespace" default="/vf_hand" />
+  <include file="$(find gripper_controls)/launch/gripper_controller.launch">
+    <arg name="gripper_namespace" value="$(arg gripper_namespace)" />
+  </include>
+  <!-- <node name="manipulation_sequence" type="manip_seq" pkg="manipulation_exp"/> -->
+
+</launch>

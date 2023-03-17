@@ -1,0 +1,24 @@
+<launch>
+<!-- This file launches the constant velocity performance test for OWI -->
+
+<!-- Loading YAML File -->
+<rosparam file="$(find owi_control)/config/params.yaml" />
+
+<!-- Webcam -->
+<include file = "$(find usb_cam)/launch/usb_cam-test.launch" />
+
+<!-- Aruco marker recognition -->
+<include file = "$(find aruco_ros)/launch/quad.launch" />
+
+<!-- Angle Values -->
+<node name = "object_position_tracking_node" pkg="marker_track" type="marker_track_node" output="log" />
+
+<!-- Sine Velocity Generator -->
+<!-- <node name = "const_velocity_node" pkg="owi_control" type="owi_const_vel_node" output = "screen" /> -->
+
+<!-- Compute Angular Velocity -->
+<node name = "freq_check_node" pkg="owi_control" type="owi_freq_node" output="screen"/>
+
+<!-- Record Angular velocity -->
+<node name ="record_angular_vel_node" pkg="owi_control" type="owi_freq_record_node" output="screen"/>
+</launch> 

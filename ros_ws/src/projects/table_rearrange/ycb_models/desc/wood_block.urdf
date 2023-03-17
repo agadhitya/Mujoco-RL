@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<robot name="wood_block">
+  <link name="world" />
+
+  <link name="wood_block">
+    <visual>
+      <geometry>
+	<mesh filename="package://ycb_models/mesh/wood_block/textured.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+	<mesh filename="package://ycb_models/mesh/wood_block/textured.dae" />
+      </geometry>
+    </collision>
+    <!-- PLACEHOLDER VALUES -->
+    <inertial>
+      <origin xyz="0.0233731 -0.0102736 0.1027692" rpy="0 0 0" />
+      <mass value="0.01" />
+      <inertia ixx="0.650192e-7" ixy="0.001248e-7" ixz="0.003288e-7"
+	       iyy="0.652637e-7" iyz="0.001982e-7"
+	       izz="0.202385e-7" />
+    </inertial>
+  </link>
+
+  <joint name="table_wood_block" type="floating">
+    <origin rpy="0 0 0" xyz="0 0 0" />
+    <parent link="world" />
+    <child link="wood_block" />
+  </joint>
+
+  <!-- Gazebo-related details -->
+  <gazebo reference="wood_block">
+    <dampingFactor>0.005</dampingFactor>
+    <kp>1000000.0</kp>
+    <kd>1.0</kd>
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+    <minDepth>0.001</minDepth>
+  </gazebo>
+
+</robot>

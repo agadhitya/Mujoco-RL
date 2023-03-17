@@ -1,0 +1,54 @@
+kinectMode: 2 # Kinect Movement Mode
+simulationMode: SIMULATION # SIMULATION / FRANKASIMULATION / FRANKA
+
+# Parameters for DataCollector code
+dataCollector: {
+    relative_path: True,                        # Whether this is relative to the package_path
+    directory: '/dataCollected/trainingData/',  # Directory to which the PCD, CSV will be saved
+    objID: 2,                                   # Object for which data has to be collected
+    csvName: 'default.csv',                     # CSV file to which the data has to be saved
+    nData: 25,                                  # Number of dataPoints to be recorded
+    homePosesCSV: 'dataCollectionTreeD2.csv',   # CSV file in active_vision/misc/ folder to be used to get home poses
+    maxRdmSteps: 4,                             # Max number of random steps to be taken before restarting
+    nRdmSearch: 3,                              # Number times a random search is initiated before going to the next direction
+}
+
+# Parameters for policyTester code
+policyTester: {
+    policy: "PCA_LDA",                      # Policy to be used (This is set in the roslaunch)
+    relative_path: True,                    # Whether this is relative to the package_path
+    directory: '/dataCollected/testData/',  # Directory to which the PCD, CSV will be saved
+    objID: 11,                               # Object for which data has to be collected
+    csvName: 'default.csv',                 # CSV file to which the data has to be saved
+    csvStVecDir: '/misc/State_Vector/',     # Directory where the state vector has been stored
+    csvStVec: 'obj_2_3_g5.csv',             # Name of csv inside storageDir
+    HAFstVecGridSize: 5,                    # Dimension of the HAF state vector used
+    maxSteps: 5,                            # Max number of steps to be taken before stopping
+    nDataPoints: 100,                        # Number of data points for each pose to test (Max 200)
+    yawAnglesCSVDir: '/misc/yawValues/',
+    yawAnglesCSV: Seed1.csv,                # csv files to choose the yaw angles from
+    uniformYawStepSize: 45,                 # Step size for yaw angles starting from 0 which will be checked
+    heuristicDiagonalPref: true,           # If the 3D Heuristic should prefer the diagonals or not
+    recordPtCldEachStep: false,              # True if record pointcloud for each step
+
+    # Parameter for any policy which uses PCA
+    # Use a value from 0-1 to set components based on the explained_variance_ratio cumulative sum
+    PCAcomponents: 0.85,
+}
+
+# Parameters for the simulated environment
+environment: {
+    tableCentre: [0.45,0,0.125],    # Co-ordinates of table centre
+    fingerZOffset: 0.0584,          # Z axis offset between gripper hand and finger
+    viewsphereRad: 0.40,
+    voxelGridSize: 0.0075,          # Voxel Grid size for environment
+    voxelGridSizeUnexp: 0.0075,     # Voxel Grid size for unexplored point cloud
+    scale: 3,                       # Scale value for unexplored point cloud generation
+    maxGripperWidth: 0.08,          # Gripper max width
+    minGraspQuality: 150,           # Min grasp quality threshold
+    graspCurvatureConstraint: True, # If the grasp pairs need to be checked for curvature constraint or not
+    graspSurPatchConstraint: True,  # If the grasp pairs need to be checked for surface patch constraint or not
+
+    addNoise: false,
+    depthNoise: 0,
+}

@@ -1,0 +1,1 @@
+Folder where policyTester write the results to.

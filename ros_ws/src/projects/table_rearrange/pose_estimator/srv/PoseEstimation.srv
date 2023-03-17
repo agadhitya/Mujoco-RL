@@ -1,0 +1,4 @@
+sensor_msgs/PointCloud2 data
+---
+string[] detected_object_names
+geometry_msgs/Pose[] detected_object_poses

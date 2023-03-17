@@ -1,0 +1,9 @@
+panda_arm:
+  kinematics_solver: trac_ik_kinematics_plugin/TRAC_IKKinematicsPlugin
+  # kinematics_solver_timeout: 0.05
+  # #position_only_ik
+  # solve_type: Speed
+  
+  # kinematics_solver: kdl_kinematics_plugin/KDLKinematicsPlugin
+  # kinematics_solver_search_resolution: 0.005
+  # kinematics_solver_timeout: 0.05

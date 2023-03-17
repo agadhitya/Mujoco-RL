@@ -1,0 +1,7 @@
+<launch>
+  <!-- Launch moveit_planner -->
+  <node name="moveit_planning_node" pkg="moveit_planner" type="main_node" />
+
+  <!-- Launch main GUI program -->
+  <node name="table_rearrange_gui" pkg="ref_benchmark" type="ref_benchmark_node" />
+</launch>

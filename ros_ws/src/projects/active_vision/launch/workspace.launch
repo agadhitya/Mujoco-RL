@@ -1,0 +1,126 @@
+<?xml version="1.0"?>
+<launch>
+
+  <arg name="visual" default="ON" />
+  <arg name="simulationMode" default="SIMULATION" />
+  <arg name="config" />
+  <env name="ROSCONSOLE_FORMAT" value='[${severity}]: ${message}'/>
+  <include file="$(find active_vision)/launch/loadParams.launch" />
+  <rosparam param="/active_vision/simulationMode" subst_value="True">$(arg simulationMode)</rosparam>
+
+  <!-- Simulation with floating Kinect -->
+  <group if="$(eval arg('simulationMode') == 'SIMULATION')">
+
+    <group if="$(eval arg('visual') == 'ON')">
+      <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="$(find active_vision)/worlds/environmentWithKinect.world"/>
+        <arg name="paused" value="false"/>
+        <arg name="use_sim_time" value="true"/>
+        <arg name="gui" value="true"/>
+        <arg name="headless" value="false"/>
+        <arg name="recording" value="false"/>
+        <arg name="debug" value="false"/>
+      </include>
+    </group>
+
+    <group if="$(eval arg('visual') == 'OFF')">
+      <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="$(find active_vision)/worlds/environmentWithKinect.world"/>
+        <arg name="paused" value="false"/>
+        <arg name="use_sim_time" value="true"/>
+        <arg name="gui" value="false"/>
+        <arg name="headless" value="false"/>
+        <arg name="recording" value="false"/>
+        <arg name="debug" value="false"/>
+      </include>
+    </group>
+
+  </group>
+
+  <!-- Simulation with Realsense on Franka -->
+  <group if="$(eval arg('simulationMode') == 'FRANKASIMULATION')">
+
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+      <arg name="world_name" value="$(find active_vision)/worlds/environment.world"/>
+      <arg name="paused" value="false"/>
+      <arg name="use_sim_time" value="true"/>
+      <arg name="gui" value="true"/>
+      <arg name="headless" value="false"/>
+      <arg name="recording" value="false"/>
+      <arg name="debug" value="false"/>
+    </include>
+
+    <param name="move_group/trajectory_execution/allowed_execution_duration_scaling" value="4.0" />
+
+    <!--Ripped off wholesale from Craig for the time being, just setting things up.-->
+
+    <param name="robot_description" command="$(find xacro)/xacro --inorder $(find active_vision)/desc/franka_camera.xacro" />
+    <rosparam file="$(find active_vision)/config/panda_control.yaml" command="load" />
+
+    <!--Add the YAML to the param Server-->
+    <rosparam command = "load" file="$(find active_vision)/config/sim_robot_params.yaml" />
+
+    <node name="spawn_franka_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model panda" />
+
+    <!-- Start publishing to /tf for rviz -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true">
+      <remap from="joint_states" to="panda/joint_states" />
+    </node>
+
+    <!-- Start moveit -->
+    <include file="$(find active_vision)/launch/moveGroup.launch" />
+    <!-- launch moveit API -->
+    <node name="moveit_api" type="main_node" pkg="moveit_planner"/>
+
+    <node name="get_pose" type="pose_node" pkg="moveit_planner" />
+
+    <!-- Launch controllers -->
+    <node name="panda_arm_controller_spawnner" pkg="controller_manager" type="spawner" respawn="false"
+          output="screen" args="joint_state_controller gazebo_ros_control" ns="/panda" />
+    <node name="panda_finger_pos_controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+          output="screen" args="panda_finger1_controller panda_finger2_controller" ns="/panda" />
+
+    <!-- <node name="gripper_node" type="gripper_node" pkg="franka_gripper_gazebo"/> -->
+    <node name="pos_grasper_node" type="pos_grasper_node" pkg="franka_pos_grasping_gazebo"/>
+
+  </group>
+
+  <!-- Test with real franka -->
+  <group if="$(eval arg('simulationMode') == 'FRANKA')">
+
+    <!-- If needed, broadcast static tf for robot root -->
+    <node pkg="tf2_ros" type="static_transform_publisher" name="virtual_joint_broadcaster_1" args="0 0 0 0 0 0 world panda_link0" />
+    <!-- Map to world -->
+    <node pkg="tf2_ros" type="static_transform_publisher" name="virtual_joint_broadcaster_2" args="0 0 0 0 0 0 map world" />
+    <!-- EE -->
+    <node pkg="tf2_ros" type="static_transform_publisher" name="virtual_joint_broadcaster_3" args="0 0 0 0 0 0 panda_EE end_effector_link" />
+
+    <arg name="robot_ip" default="172.16.0.2" />
+    <arg name="load_gripper" default="true" />
+    <arg name="launch_vision" default="true" />
+    <arg name="launch_rviz" default="false" />
+
+    <!--Start vision system-->
+    <include file="$(find active_vision)/launch/vision.launch" if="$(arg launch_vision)" />
+
+    <include file="$(find franka_control)/launch/franka_control.launch" >
+      <arg name="robot_ip" value="$(arg robot_ip)" />
+      <arg name="load_gripper" value="$(arg load_gripper)" />
+    </include>
+
+    <!-- <param name="move_group/trajectory_execution/allowed_execution_duration_scaling" value="4.0" /> -->
+    <include file="$(find panda_moveit_config)/launch/panda_moveit.launch">
+      <arg name="load_gripper" value="$(arg load_gripper)" />
+    </include>
+
+    <!-- Launch moveit planning services -->
+    <node name="moveit_planner" pkg="moveit_planner" type="main_node" args="panda_arm"/>
+    <!-- Enforce joint space planning for all plans (increases planning time) -->
+    <!-- <param name="panda_arm/enforce_joint_model_state_space" type="bool" value="true" /> -->
+
+    <!-- Start get pose node (for EE tip position) -->
+    <node name="get_pose" type="pose_node" pkg="moveit_planner" />
+
+  </group>
+
+</launch>

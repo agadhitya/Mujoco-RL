@@ -1,0 +1,3 @@
+<launch>
+  <node name="pcl_node" pkg="ros_pcl_manip" type="ros_pcl_manip_node" />
+</launch>

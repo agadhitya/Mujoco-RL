@@ -1,0 +1,45 @@
+<launch>
+<!--   spiral_Ft: Max force when moving to insertion plane
+       spiral_Fd: Max wrist Force during spiral
+       spiral_Fi: Max Insertion Force
+       spiral_Tx: Max Torque in X during spiral
+       spiral_Ty: Max Torque in Y during spiral
+       spiral_delta_max: Max distance for EE to move in Z
+       spiral_delta_step: Distance to move EE in Z each step
+       spiral_a: Initial distance from origin
+       spiral_b: Distance between spiral turns
+       spiral_nmax: Number of points in spiral
+       spiral_rot: Number of spiral rotations
+       ft_samples: Number of FT samples to take before insertion
+       ft_sleep: Sleep time between FT samples -->
+  <param name="spiral_Ft" type="double" value="2.5" />
+  <param name="spiral_Fd" type="double" value="3.0" />
+  <param name="spiral_Fi" type="double" value="20.0" />
+  <param name="spiral_Tx" type="double" value="20.0" />
+  <param name="spiral_Ty" type="double" value="20.0" />
+  <param name="spiral_delta_max" type="double" value="0.1" />
+  <param name="spiral_delta_step" type="double" value="0.0005" /> <!-- Should be 0.00025 eventually -->
+  <param name="spiral_a"    type="double" value="0.0" />
+  <param name="spiral_b"    type="double" value="0.0005" /> <!-- 0.000025 -->
+  <param name="spiral_nmax" type="int" value="50" />
+  <param name="spiral_rot"  type="double" value="10.0" />
+  <param name="ft_samples"  type="int" value="25" />
+  <param name="ft_sleep"    type="double" value="0.05" />
+  <!-- <include file="$(find ref_benchmark_moveit_config)/launch/move_group.launch" /> -->
+  <!-- launch moveit API -->
+  <!-- <node name="moveit_api" type="main_node" pkg="moveit_planner" /> -->
+  <!-- Un pause simulation via setup node-->
+  <node name="setup" type="setup_node" pkg="lock_key" />
+  <!-- Start get pose node -->
+  <node name="get_pose" type="pose_node" pkg="moveit_planner" />
+  <!-- Start get wrench node -->
+  <node name="get_wrench" type="get_wrench_node" pkg="lock_key"  output="screen"/>
+  <!-- Start Collision Objects Node -->
+  <node name="collision_obj" type="collision_obj_node" pkg="lock_key" />
+  <!-- Start Constraints Node -->
+  <node name="constraints" type="arm_constraints_node" pkg="lock_key" />
+  <!--Start Spiral Insert Node-->
+  <node name="spiral_insert" type="spiral_insert_node" pkg="lock_key" output="screen"/>
+  <!--Start Controller Node -->
+  <node name="controller" type="control_node" pkg="lock_key" output="screen"/>
+</launch>

@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="config" />
+  <arg name="policy" default="NIL" doc="NIL / HEURISTIC / 3DHEURISTIC / PCA_LDA / PCA_LDA_LR / PCA_LR / RANDOM" />
+  <arg name="simulationMode" default="SIMULATION" />
+
+  <include file="$(find active_vision)/launch/workspace.launch" >
+      <arg name="simulationMode" value="$(arg simulationMode)" />
+  </include>
+  <rosparam param="/active_vision/policyTester/policy" subst_value="True">$(arg policy)</rosparam>
+
+  <env name="ROSCONSOLE_FORMAT" value='[${severity}]: ${message}'/>
+
+  <group if="$(eval arg('policy') == 'NIL')">
+    <node name="policyTester" pkg="active_vision" type="policyTester" args="0" output="screen"/>
+  </group>
+  <group if="$(eval arg('policy') == '3DHEURISTIC')">
+    <node name="ThreeDheuristicPolicyService" pkg="active_vision" type="3DheuristicPolicyService" output="screen" launch-prefix="gnome-terminal --" />
+    <node name="policyTester" pkg="active_vision" type="policyTester" args="1" output="screen" launch-prefix="gnome-terminal --" />
+  </group>
+  <group if="$(eval arg('policy') == 'HEURISTIC')">
+    <node name="heuristicPolicyService" pkg="active_vision" type="heuristicPolicyService" args="0" output="screen" launch-prefix="gnome-terminal --" />
+    <node name="policyTester" pkg="active_vision" type="policyTester" args="1" output="screen" launch-prefix="gnome-terminal --" />
+  </group>
+  <group if="$(eval arg('policy') == 'PCA_LDA' or
+                    arg('policy') == 'PCA_LDA_LR' or
+                    arg('policy') == 'PCA_LR' or
+                    arg('policy') == 'QLEARN' or 
+                    arg('policy') == 'RANDOM')">
+    <node name="trainedPolicyService" pkg="active_vision" type="trainedPolicyService.py" output="screen" launch-prefix="gnome-terminal --"/>
+    <node name="policyTester" pkg="active_vision" type="policyTester" args="2" output="screen" launch-prefix="gnome-terminal --" />
+  </group>
+
+</launch>

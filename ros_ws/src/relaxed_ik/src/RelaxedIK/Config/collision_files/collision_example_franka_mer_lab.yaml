@@ -1,0 +1,20 @@
+robot_link_radius: 0.04
+sample_states: [ [0.0, 0.0, 0.0, -2.7586914, -0.12574282000000014, 1.16251, 0.0753298],
+[1.6630502000000003, 1.05768, 2.77155718, -2.7977174, -0.0504130199999997, 1.129711, -0.024916780000000305]]
+training_states:
+problem_states:
+boxes:
+  - name: box1
+    parameters: [1,1,0.1]
+    coordinate_frame: 0
+    rotation: [0,0,0]
+    translation: [1,0,0]
+# spheres:
+#   - name: sphere1
+#     parameters: .02
+#     coordinate_frame: 9
+#     rotation: [0,0,0]
+#     translation: [.115,0.025,-0.053]
+ellipsoids:
+capsules:
+cylinders:

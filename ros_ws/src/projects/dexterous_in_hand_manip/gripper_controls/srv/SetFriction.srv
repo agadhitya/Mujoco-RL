@@ -1,0 +1,4 @@
+int8 finger
+bool high_friction
+---
+bool success

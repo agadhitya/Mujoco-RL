@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="hand">
+  <xacro:macro name="updated_hand" params="connected_to:='' ns:='' rpy:='0 0 0' xyz:='0 0 0' ">
+    <xacro:unless value="${connected_to == ''}">
+      <joint name="${ns}_hand_joint" type="fixed">
+        <parent link="${connected_to}"/>
+        <child link="${ns}_hand"/>
+        <origin xyz="${xyz}" rpy="${rpy}"/>
+      </joint>
+    </xacro:unless>
+    <link name="${ns}_hand">
+      <visual>
+        <geometry>
+          <mesh filename="package://franka_description/meshes/visual/hand.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://franka_description/meshes/collision/hand.stl"/>
+        </geometry>
+      </collision>
+	<inertial>
+            <mass value="0.67893" />
+            <inertia ixx="0.03" iyy="0.03" izz="0.03" ixy="0.0" ixz="0.0" iyz="0.0" />
+        </inertial>
+    </link>
+    <link name="${ns}_leftfinger">
+      <visual>
+        <geometry>
+          <mesh filename="package://franka_description/meshes/visual/finger.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://franka_description/meshes/collision/finger.stl"/>
+        </geometry>
+      </collision>
+	<inertial>
+            <mass value="0.01053" />
+            <inertia ixx="0.03" iyy="0.03" izz="0.03" ixy="0.0" ixz="0.0" iyz="0.0" />
+        </inertial>
+    </link>
+    <link name="${ns}_rightfinger">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 ${pi}"/>
+        <geometry>
+          <mesh filename="package://franka_description/meshes/visual/finger.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 ${pi}"/>
+        <geometry>
+          <mesh filename="package://franka_description/meshes/collision/finger.stl"/>
+        </geometry>
+      </collision>
+	<inertial>
+            <mass value="0.01053" />
+            <inertia ixx="0.03" iyy="0.03" izz="0.03" ixy="0.0" ixz="0.0" iyz="0.0" />
+        </inertial>
+    </link>
+  
+  <gazebo reference="panda_leftfinger">
+    <kp>1000000.0</kp>
+    <kd>1.0</kd>
+    <mu1>100000.0</mu1>
+    <mu2>100000.0</mu2>
+    <minDepth>0.001</minDepth>
+  </gazebo>
+  <gazebo reference="panda_rightfinger">
+    <kp>1000000.0</kp>
+    <kd>1.0</kd>
+    <mu1>100000.0</mu1>
+    <mu2>100000.0</mu2>
+    <minDepth>0.001</minDepth>
+  </gazebo>
+
+
+
+    <joint name="${ns}_finger_joint1" type="prismatic">
+      <parent link="${ns}_hand"/>
+      <child link="${ns}_leftfinger"/>
+      <origin xyz="0 0 0.0584" rpy="0 0 0"/>
+      <axis xyz="0 1 0"/>
+      <limit effort="1000" lower="0.0" upper="0.04" velocity="0.1"/>
+    </joint>
+    <joint name="${ns}_finger_joint2" type="prismatic">
+      <parent link="${ns}_hand"/>
+      <child link="${ns}_rightfinger"/>
+      <origin xyz="0 0 0.0584" rpy="0 0 0"/>
+      <axis xyz="0 -1 0"/>
+      <limit effort="1000" lower="0.0" upper="0.04" velocity="0.1"/>
+      <mimic joint="${ns}_finger_joint1" />
+    </joint>
+
+    <transmission name="f_t_1">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${ns}_finger_joint1">
+	<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="motor_finger_1">
+	<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	<mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <transmission name="f_t_2">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${ns}_finger_joint2">
+	<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="motor_finger_2">
+	<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	<mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+  </xacro:macro>
+</robot>

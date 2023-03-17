@@ -1,0 +1,9 @@
+# Define the goal
+float64 d_roll
+float64 d_pitch
+float64 d_yaw
+---
+# Define the result
+bool rotated_key
+---
+# Define a feedback message

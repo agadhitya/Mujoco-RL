@@ -1,0 +1,26 @@
+<launch>
+  <!-- Args to be forwarded to the conveyor_system.launch file -->
+  <arg name="width" default="0.4" />
+  <arg name="length" default="1" />
+  <arg name="speed" default="0.1" />
+  <arg name="seg_length" default="0.05" />
+  <arg name="wall_height" default="0.1" />
+  <arg name="y" default="0.0" />
+  <arg name="x" default="0.0" />
+  <arg name="z" default="0.0" />
+
+  <include file="$(find conveyor_sim)/launch/conveyor_system.launch">
+    <arg name="width" value="$(arg width)" />
+    <arg name="length" value="$(arg length)" />
+    <arg name="speed" value="$(arg speed)" />
+    <arg name="seg_length" value="$(arg seg_length)" />
+    <arg name="wall_height" value="$(arg wall_height)" />
+    <arg name="y" value="$(arg y)" />
+    <arg name="x" value="$(arg x)" />
+    <arg name="z" value="$(arg z)" />
+  </include>
+  <include file="$(find conveyor_sim)/launch/spawner.launch" />
+  <include file="$(find conveyor_sim)/launch/despawner.launch" />
+  <include file="$(find conveyor_sim)/launch/franka.launch" />
+  <include file="$(find conveyor_sim)/launch/vision_node.launch" />
+</launch>

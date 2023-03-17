@@ -1,0 +1,11 @@
+<launch>
+  <!-- Load params -->
+  <rosparam file="$(find panda_moveit_controller)/config/panda_control.yaml" command="load" />
+
+  <!-- Launch controllers -->
+  <node name="panda_moveit_controller_spawner" pkg="controller_manager" type="spawner" respawn="false" args="joint_state_controller gazebo_ros_control" ns="/panda" />
+  <!-- Launch robot_state_publisher -->
+  <node name="panda_moveit_robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true">
+    <remap from="joint_states" to="panda/joint_states" />
+  </node>
+</launch>

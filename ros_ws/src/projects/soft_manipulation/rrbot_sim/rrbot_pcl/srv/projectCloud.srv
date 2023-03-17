@@ -1,0 +1,6 @@
+sensor_msgs/PointCloud2 pc2
+float64 res
+---
+float32[] x
+float32[] y
+float32[] z

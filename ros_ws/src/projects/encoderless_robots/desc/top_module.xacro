@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="panda">
+  <xacro:include filename="$(find encoderless_robots)/desc/updated_panda_arm.xacro"/>
+  <xacro:include filename="$(find encoderless_robots)/desc/updated_hand.xacro"/>
+  <!-- <xacro:include filename="$(find relaxed_ik)/src/RelaxedIK/urdfs/green_ball.xacro"/> -->
+  <!-- <xacro:include filename="$(find relaxed_ik)/src/RelaxedIK/urdfs/hand_custom.xacro"/> -->
+  <!-- <xacro:include filename="$(find vf-hand_description)/robots/vf_hand.xacro"/> -->
+  <xacro:include filename="$(find encoderless_robots)/desc/camera_on_stand.xacro"/>
+  
+  <xacro:updated_panda_arm />
+  <!-- <xacro:green_ball /> -->
+  <!-- <xacro:vf_hand rpy="0 0 0" connected_to="panda_link8" ns="panda"/> -->
+
+  <xacro:updated_hand ns="panda" rpy="0 0 0" connected_to="panda_link8"/>
+
+
+  <xacro:camera_on_stand />
+  <!-- Gazebo control plugin -->
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libmy_gazebo_ros_control.so">
+      <!-- <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so"> -->
+      <robotNamespace>/panda</robotNamespace>
+      <!-- <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType> -->
+    </plugin>
+  </gazebo>
+
+
+  <!-- <xacro:hand ns="panda" rpy="0 0 ${-pi/4}" connected_to="panda_link8"/> -->
+
+  <!-- <joint name="panda_hand_joint" type="fixed">
+    <parent link="panda_link7"/>
+    <child link="end_sphere"/>
+    <origin rpy="0 0 0" xyz="0.0 0.0 0.155"/>
+</joint> -->
+
+<!-- <gazebo reference="panda_hand">
+  <material>Gazebo/Black</material>
+</gazebo> -->
+
+<gazebo reference="panda_leftfinger">
+  <material>Gazebo/Gray</material>
+</gazebo>
+
+<gazebo reference="panda_rightfinger">
+  <material>Gazebo/Gray</material>
+</gazebo>
+
+</robot>

@@ -1,0 +1,9 @@
+# Define the goal (angle in radians)
+float64 angle
+string axis
+---
+# Define the result
+bool success_failure
+---
+# Define a feedback message
+float32 percent_complete

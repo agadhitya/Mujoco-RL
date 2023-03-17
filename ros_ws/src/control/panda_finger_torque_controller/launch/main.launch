@@ -1,0 +1,7 @@
+<launch>
+  <!-- Load params -->
+  <rosparam file="$(find panda_finger_torque_controller)/config/panda_finger_control.yaml" command="load" />
+
+  <!-- Launch controllers -->
+  <node name="panda_finger_torque_controller_spawner" pkg="controller_manager" type="spawner" respawn="false" args="panda_finger1_controller panda_finger2_controller" ns="/panda" />
+</launch>

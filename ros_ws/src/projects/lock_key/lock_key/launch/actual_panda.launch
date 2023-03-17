@@ -1,0 +1,58 @@
+<?xml version="1.0" ?>
+<launch>
+  <!-- If needed, broadcast static tf for robot root -->
+  <node pkg="tf2_ros" type="static_transform_publisher" name="virtual_joint_broadcaster_1" args="0 0 0 0 0 0 world panda_link0" />
+   <!-- Map to world -->
+  <node pkg="tf2_ros" type="static_transform_publisher" name="virtual_joint_broadcaster_2" args="0 0 0 0 0 0 map world" /> 
+   <!-- EE -->
+  <node pkg="tf2_ros" type="static_transform_publisher" name="virtual_joint_broadcaster_3" args="0 0 0 0 0 0 panda_EE end_effector_link" /> 
+
+  <!-- Arguments -->
+  <arg name="robot_ip" default="172.16.0.2" />
+  <arg name="load_gripper" default="true" />
+  <arg name="launch_vision" default="true" />
+  <arg name="launch_rviz" default="false" />
+	
+  <!-- Set Parameters so other nodes can access them -->
+  <rosparam file="$(find lock_key)/config/actual_params.yaml" />
+
+  <!-- Loads robot description, gripper, control params, and state publishers -->
+  <include file="$(find lock_key)/launch/franka_control_lockkey.launch" >
+    <arg name="robot_ip" value="$(arg robot_ip)" />
+    <arg name="load_gripper" value="$(arg load_gripper)" />
+  </include>
+
+  <include file="$(find lock_key)/launch/panda_moveit.launch">
+    <arg name="load_gripper" value="$(arg load_gripper)" />
+  </include>
+  
+  <!-- Launch moveit planning services -->
+  <node name="moveit_planner" pkg="moveit_planner" type="main_node" args="panda_arm"/>
+  <!-- Enforce joint space planning for all plans (increases planning time) -->
+  <param name="panda_arm/enforce_joint_model_state_space" type="bool" value="true" />
+
+  <!-- Start get pose node (for EE tip position) -->
+  <node name="get_pose" type="pose_node" pkg="moveit_planner" />
+  <!-- Start get wrench node -->
+  <node name="get_wrench" type="get_wrench_node" pkg="lock_key"  output="screen"/>
+  <!-- Start Constraints Node -->
+  <node name="constraints" type="arm_constraints_node" pkg="lock_key" />
+  <!--Start Spiral Insert Node-->
+  <node name="spiral_insert" type="spiral_insert_node" pkg="lock_key" output="screen"/>
+  <!--Start Insertion Plane Contact Detection Node-->
+  <node name="plane_detector_node" type="detect_plane_node" pkg="lock_key" output="screen"/>
+  <!--Start Spiralling Node-->
+  <node name="spiral_motion" type="spiral_node" pkg="lock_key" output="screen"/>
+  <!--Start Key Rotation Node-->
+  <node name="rotate_key" type="rotate_key_node" pkg="lock_key" output="screen"/>
+  <!--Start Jiggle Node-->
+  <!-- <node name="jiggle_motion" type="jiggle_node" pkg="lock_key" output="screen"/> -->
+  <!-- For SMACH: Start MoveAbs Node -->
+  <node name="move_abs" type="move_abs_node" pkg="lock_key" />
+
+  <!--Start vision system-->
+  <include file="$(find lock_key)/launch/vision.launch" if="$(arg launch_vision)" />
+
+  <!--Start Rviz-->
+  <!-- <include file="$(find panda_moveit_config)/launch/moveit_rviz.launch" if="$(arg launch_rviz)" /> -->
+</launch>

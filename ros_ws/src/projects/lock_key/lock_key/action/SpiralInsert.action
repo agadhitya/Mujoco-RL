@@ -1,0 +1,11 @@
+# Define the goal
+float64 Ft
+float64 Fd
+float64 Fi
+float64 delta_max
+---
+# Define the result
+bool success_failure
+---
+# Define a feedback message
+float32 percent_complete

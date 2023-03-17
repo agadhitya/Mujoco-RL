@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<robot name="surface">
+  <link name="world" />
+
+  <link name="table">
+    <visual>
+      <geometry>
+	<box size="0.6 1 0.001" />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+	<box size="0.6 1 0.005" />
+      </geometry>
+    </collision>
+        <surface>
+        <friction>
+          <ode>
+            <mu>0.7</mu>
+            <mu2>0.7</mu2>
+          </ode>
+        </friction>
+      </surface>
+    <inertial>
+      <mass value="100" />
+      <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100" />
+    </inertial>
+  </link>
+
+  <gazebo reference="table">
+  <material>Gazebo/DarkGrey</material>
+  </gazebo>
+
+  <joint name="fixed" type="fixed">
+    <origin rpy="0 0 0" xyz="0.75 0 0.4" />
+    <parent link="world" />
+    <child link="table" />
+  </joint>
+
+</robot>

@@ -1,0 +1,8 @@
+# Define the goal
+---
+# Define the result
+bool found_hole
+---
+# Define a feedback message
+float64 dx
+float64 dy

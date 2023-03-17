@@ -1,0 +1,5 @@
+sensor_msgs/PointCloud2 cloud
+float64 leaf_size
+---
+sensor_msgs/PointCloud2 plane
+sensor_msgs/PointCloud2 negativeCloud

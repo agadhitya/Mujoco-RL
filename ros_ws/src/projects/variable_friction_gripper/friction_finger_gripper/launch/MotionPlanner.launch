@@ -1,0 +1,25 @@
+<launch>
+	
+	
+	<rosparam command="load" file="/home/joshua/ff_ws/src/friction_finger_gripper/config/ff_parameters.yaml"/>
+	
+	
+	<arg name="vs_enable" default = "load visual_servoing"/>
+
+	<!-- <node pkg="friction_finger_gripper" type="Main_file.py" name="main" output="screen"/> -->
+	<node pkg="friction_finger_gripper" type="controller_node" name="controller_node" output="screen"/>
+	<node pkg="friction_finger_gripper" type="controller_new" name="controller_new" output="screen"/>
+	<node pkg="rosserial_python" type="serial_node.py" name="serial_node"/>
+
+	<!-- <node pkg= "friction_finger_gripper" type="Motion_plan.py" name="Motion_plan" output="screen"/> -->
+	<node pkg="friction_finger_gripper" type="VisualServoing_arbitraryShape.py" name="Visual_servoing" output="screen"/>	
+	
+	<include file="/opt/ros/kinetic/share/usb_cam/launch/usb_cam-test.launch"/>
+	<include file="/opt/ros/kinetic/share/aruco_ros/launch/double.launch"/>
+
+	<node pkg="object_position_tracking" type="object_position_tracking_node" name="object_position_tracking_node"/>
+
+
+	<node pkg="friction_finger_gripper" type="Plot_trajectory.py" name="Plot_trajectory" output="screen"/>
+	<node pkg = "friction_finger_gripper" type = "record_node" name = "record_node" /> 
+</launch>

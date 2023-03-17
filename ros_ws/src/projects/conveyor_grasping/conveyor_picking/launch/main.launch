@@ -1,0 +1,6 @@
+<launch>
+  <!-- Start moveit -->
+  <node name="moveit_planner" pkg="moveit_planner" type="main_node" output="screen" />
+  <node name="pose_estimator" pkg="pose_estimator" type="obtain_pose_gazebo_node" />
+  <node name="gripper_grasp" pkg="franka_gripper_gazebo" type="gripper_node" />
+</launch>

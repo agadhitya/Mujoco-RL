@@ -1,0 +1,7 @@
+sensor_msgs/PointCloud2 cloud
+string field_name
+float64 lower
+float64 upper
+---
+sensor_msgs/PointCloud2 filtered
+sensor_msgs/PointCloud2 negative

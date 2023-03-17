@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<robot name="padlock">
+  <link name="world" />
+
+  <link name="padlock">
+    <visual>
+      <geometry>
+	    <!-- <mesh filename="package://lock_key/mesh/lock.STL" /> -->
+      <!-- <mesh filename="package://lock_key/mesh/lock_nominal.STL" /> -->
+      <mesh filename="package://lock_key/mesh/lock_nominal_002Chamfer.STL" />
+      <!-- <mesh filename="package://lock_key/mesh/lock_Plus004_006Chamfer.STL" /> -->
+      <!-- <mesh filename="package://lock_key/mesh/lock_Plus004_002Chamfer.STL" /> -->
+      </geometry>
+
+    </visual>
+    <collision>
+      <geometry>
+	    <!-- <mesh filename="package://lock_key/mesh/lock.STL" /> -->
+      <!-- <mesh filename="package://lock_key/mesh/lock_nominal.STL" /> -->
+      <mesh filename="package://lock_key/mesh/lock_nominal_002Chamfer.STL" />
+      <!-- <mesh filename="package://lock_key/mesh/lock_Plus004_006Chamfer.STL" /> -->
+      <!-- <mesh filename="package://lock_key/mesh/lock_Plus004_002Chamfer.STL" /> -->
+      </geometry>
+    </collision>
+    <!-- PLACEHOLDER VALUES -->
+    <inertial>
+      <mass value="0.1" />
+      <inertia ixx="0.1" ixy="0.1" ixz="0.1"
+	       iyy="0.1" iyz="0.1"
+	       izz="0.1" />
+    </inertial>
+  </link>
+
+  <gazebo reference="padlock">
+  <material>Gazebo/Green</material>
+  </gazebo>
+  
+  <joint name="table_padlock" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0" />
+    <parent link="world" />
+    <child link="padlock" />
+  </joint>
+
+</robot>

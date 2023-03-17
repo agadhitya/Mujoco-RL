@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="camera">
+  <xacro:macro name="camera_gazebo_sensor" params="xyz rpy parent sensor_name">
+
+    <!-- joint/link data -->
+    <!-- You can modify this to give the camera actual geometry -->
+    <link name="camera_link">>
+      <!-- <inertial>
+       <origin xyz="0 0 0.0" rpy="0 0 0"/>
+       <mass value="0.0001"/>
+       <inertia ixx="0.0001"  ixy="0"  ixz="0" iyy="0.0001" iyz="0" izz="0.0001" />
+     </inertial>
+     <visual>
+       <geometry>
+         <mesh filename="package://active_vision/models/kinectAV/meshes/kinect.dae"/>
+       </geometry>
+     </visual> -->
+    </link>
+    <link name="${sensor_name}_optical_link"></link>
+
+    <joint name="robot_camera_joint" type="fixed">
+      <origin xyz="${xyz}" rpy="${rpy}" />
+      <parent link="${parent}" />
+      <child link="camera_link" />
+    </joint>
+    <joint name="camera_optical_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="-1.57 0 -1.57" />
+      <parent link="camera_link" />
+      <child link="${sensor_name}_optical_link" />
+    </joint>
+
+
+    <!-- Sensor -->
+    <gazebo reference="camera_link">
+
+      <sensor type="depth" name="${sensor_name}">
+	<always_on>1</always_on>
+	<visualize>true</visualize>
+	<update_rate>20</update_rate>
+	<camera>
+	  <horizontal_fov>1.047198</horizontal_fov>
+	  <image>
+	    <width>640</width>
+	    <height>480</height>
+	    <format>B8G8R8</format>  <!--Changed format since channels were inverted, to go back, change to R8G8B8-->
+	  </image>
+	  <clip>
+	    <near>0.01</near>
+	    <far>3</far>
+	  </clip>
+	</camera>
+
+	<plugin name="camera_plugin" filename="libgazebo_ros_openni_kinect.so">
+          <baseline>0.2</baseline>
+          <alwaysOn>true</alwaysOn>
+          <!-- Keep this zero, update_rate in the parent <sensor> tag will control the frame rate. -->
+          <updateRate>0.0</updateRate>
+          <cameraName>camera_ir</cameraName>
+          <imageTopicName>/camera/color/image_raw</imageTopicName>
+          <cameraInfoTopicName>/camera/color/camera_info</cameraInfoTopicName>
+          <depthImageTopicName>/camera/depth/image_raw</depthImageTopicName>
+          <depthImageCameraInfoTopicName>/camera/depth/camera_info</depthImageCameraInfoTopicName>
+          <pointCloudTopicName>/camera/depth/points</pointCloudTopicName>
+          <frameName>camera_optical_link</frameName>
+          <pointCloudCutoff>0.10</pointCloudCutoff>
+          <pointCloudCutoffMax>3.0</pointCloudCutoffMax>
+          <distortionK1>0</distortionK1>
+          <distortionK2>0</distortionK2>
+          <distortionK3>0</distortionK3>
+          <distortionT1>0</distortionT1>
+          <distortionT2>0</distortionT2>
+          <CxPrime>0</CxPrime>
+          <Cx>0</Cx>
+          <Cy>0</Cy>
+          <focalLength>0</focalLength>
+          <hackBaseline>0</hackBaseline>
+        </plugin>
+      </sensor>
+    </gazebo>
+
+  </xacro:macro>
+</robot>

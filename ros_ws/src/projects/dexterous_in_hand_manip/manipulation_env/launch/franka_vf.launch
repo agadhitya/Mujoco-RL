@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+
+  <!-- table parameters - used for object positioning -->
+  <arg name="floor_height" value="0.026" />
+  <arg name="table_height" value="0.6" />
+  <arg name="table_center" value="0.7" />
+  <arg name="table_width" value="1" />
+  <arg name="table_length" value="0.6" />
+
+  <!-- get arm+gripper description -->
+  <param name="robot_description" command="$(find xacro)/xacro --inorder $(find vf-hand_description)/robots/franka_vf_hand.xacro" />
+
+  <node name="map_frame" pkg="tf" type="static_transform_publisher" args="0 0 0 0 0 0 map world 100" />
+  <node name="frame1_map" pkg="tf" type="static_transform_publisher" args="0 0 0 0 0 0 world panda_link0 100" />
+
+
+  <!-- launching gazebo -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="paused" value="true"/>
+    <arg name="verbose" value="true" />
+   </include>
+
+  <!-- spawn robot -->
+  <node name="spawn_franka_vf" pkg="gazebo_ros" type="spawn_model"
+  	args="-param robot_description -urdf -model franka_vf -z $(arg floor_height) -J panda_joint6 0.785398 -J panda_joint7 0.785398" />
+
+  <!-- spawn table -->
+  <!-- <node name="spawn_floor_urdf" pkg="gazebo_ros" type="spawn_model"
+  	args="-file $(find manipulation_env)/desc/floor_table.urdf -urdf -model floor_table" /> -->
+  <node name="spawn_table_urdf" pkg="gazebo_ros" type="spawn_model"
+  	args="-file $(find manipulation_env)/desc/table_box.urdf -urdf -model table_surface" />
+
+  <!-- spawn object -->
+  <node name="spawn_object" pkg="gazebo_ros" type="spawn_model"
+  	args="-file $(find manipulation_env)/desc/rectangular_prism.urdf -urdf -model object -z $(arg table_height) -x 0.4 -y -0.4" />
+
+  <!-- launch franka controllers -->
+  <include file="$(find panda_moveit_controller)/launch/main.launch"/>
+  <!-- launch gripper controllers -->
+  <include file="$(find vf_hand_controller)/launch/main.launch"/>
+  <!-- launch high level planner for franka -->
+  <include file="$(find arm_controls)/launch/arm_controller.launch"/>
+  <!-- launch gripper planners with panda namespace -->
+  <arg name="gripper_namespace" default="/panda" />
+  <include file="$(find gripper_controls)/launch/gripper_controller.launch">
+    <arg name="gripper_namespace" value="$(arg gripper_namespace)" />
+  </include>
+  <!-- launch moveit config -->
+  <include file="$(find vf_moveit_config2)/launch/move_group.launch" />
+  <!-- launch moveit planner -->
+  <node name="moveit_planner" type="main_node" pkg="moveit_planner" args="panda_arm"/>
+  <!-- launch manipulation sequence -->
+  <node name="manipulation_sequence" type="manip_seq" pkg="manipulation_exp"/>
+
+</launch>

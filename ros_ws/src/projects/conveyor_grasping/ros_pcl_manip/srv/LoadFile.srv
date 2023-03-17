@@ -1,0 +1,4 @@
+string filepath
+string frame
+---
+sensor_msgs/PointCloud2 cloud

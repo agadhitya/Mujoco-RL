@@ -1,0 +1,50 @@
+<launch>
+  <arg name="serial_no"             default=""/>
+  <arg name="json_file_path"        default=""/>
+  <arg name="camera"                default="camera"/>
+  
+  <!-- <node pkg="tf2_ros" type="static_transform_publisher" name="realsense_link_broadcaster1"
+        args="0.0244449 -0.0341399  0.0594852 -0.710994 -0.00556859 -0.00261344 0.703171 panda_hand camera_link_temp" />
+  
+  <node pkg="tf2_ros" type="static_transform_publisher" name="realsense_link_broadcaster2"
+        args="0 0 0 0.503393788147 -0.498659348695 0.499804609603 -0.498125386056 camera_link_temp camera_link" /> -->
+
+  <node pkg="tf2_ros" type="static_transform_publisher" name="realsense_link_broadcaster1"
+        args="0.0377 -0.0446 0.0594 1.5436 0.0048 0.0027 panda_hand camera_link_temp" />
+
+  <node pkg="tf2_ros" type="static_transform_publisher" name="realsense_link_broadcaster2"
+        args="0.0147824750802 0.000306939841835 0.000341368462714 0.503393788147 -0.498659348695 0.499804609603 0.498125386056 camera_link_temp camera_link" />
+
+  <group ns="$(arg camera)">
+    <include file="$(find realsense2_camera)/launch/includes/nodelet.launch.xml">
+      <arg name="serial_no"         value="$(arg serial_no)"/>
+      <arg name="json_file_path"    value="$(arg json_file_path)"/>
+      <arg name="depth_width"       value="640"/>
+      <arg name="depth_height"      value="480"/>
+      <arg name="depth_fps"         value="6"/>
+      <arg name="color_width"       value="640"/>
+      <arg name="color_height"      value="480"/>
+      <arg name="color_fps"         value="6"/>
+      <arg name="enable_depth"      value="true"/>
+      <arg name="enable_color"      value="true"/>
+      <arg name="enable_infra1"     value="false"/>
+      <arg name="enable_infra2"     value="false"/>
+      <arg name="enable_fisheye"    value="false"/>
+      <arg name="enable_gyro"       value="false"/>
+      <arg name="enable_accel"      value="false"/>
+
+      <arg name="enable_pointcloud" value="true"/>
+      <arg name="allow_no_texture_points"   value="true"/>
+
+      <arg name="ordered_pc"        value="true"/>
+      <arg name="enable_sync"       value="true"/>
+      <arg name="tf_prefix"         value="$(arg camera)"/>
+      <arg name="align_depth"       value="true"/>
+      <arg name="filters"           value="disparity,spatial,temporal"/>
+      <arg name="initial_reset"     value="true"/>
+    </include>
+
+    <node pkg="nodelet" type="nodelet" name="nodelet_manager" args="manager" />
+  </group>
+
+</launch>

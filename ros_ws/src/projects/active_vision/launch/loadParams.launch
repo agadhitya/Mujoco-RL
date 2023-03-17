@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<launch>
+
+  <group ns="active_vision">
+  	<rosparam file="$(find active_vision)/config/parameters.yaml" />
+    <rosparam file="$(find active_vision)/config/objects.yaml" />
+  </group>
+
+</launch>

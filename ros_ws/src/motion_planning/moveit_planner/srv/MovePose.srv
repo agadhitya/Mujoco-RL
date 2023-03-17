@@ -1,0 +1,5 @@
+geometry_msgs/Pose val
+bool execute
+---
+float64 planning_time
+duration arrival_time

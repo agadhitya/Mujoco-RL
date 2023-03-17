@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+  <!-- launch ui -->
+  <node name="parameter_setter" pkg="simulation_ui" type="param_setter" output="screen"/>
+  <node name="simulation_ui" pkg="simulation_ui" type="sim_ui" output="screen"/>
+</launch>

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>ycb_models</name>
+  <version>0.0.0</version>
+  <description>The ycb_models package</description>
+
+  <maintainer email="fadi@todo.todo">fadi</maintainer>
+  <license>TODO</license>
+  <buildtool_depend>catkin</buildtool_depend>
+</package>

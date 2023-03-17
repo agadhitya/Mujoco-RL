@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Franka robot with a camera attached -->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="panda_hand_camera">
+  <!-- Include xacro files -->
+  <xacro:include filename="$(find franka_description)/robots/panda_arm_hand_active_vision.xacro"/>
+  <xacro:include filename="$(find active_vision)/desc/depth.xacro" />
+
+  <link name="end_effector_link" />
+
+  <joint name="end_joint" type="fixed">
+    <parent link="panda_hand" />
+    <child link="end_effector_link" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </joint>
+
+  <!-- <xacro:camera_gazebo_sensor xyz="0.05 -0.05 0" rpy="-1.57 -1.57 -0.785" parent="panda_link8" sensor_name="camera"/> -->
+
+  <xacro:camera_gazebo_sensor xyz="0.03 -0.0175 0.06" rpy="-1.57 -1.57 -1.57" parent="panda_hand" sensor_name="camera"/>
+</robot>

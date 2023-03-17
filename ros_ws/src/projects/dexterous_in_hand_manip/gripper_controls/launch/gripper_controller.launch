@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+  <!-- high level controller parameters -->
+  <group ns="high_level">
+    <rosparam file="$(find gripper_controls)/config/high_lvl_params.yaml" />
+  </group>
+  <!-- low level controller parameters -->
+  <group ns="low_level">
+    <rosparam file="$(find gripper_controls)/config/low_lvl_params.yaml" />
+  </group>
+  <!-- launch controllers -->
+  <arg name="gripper_namespace" default=""/>
+  <node name="low_lvl_ctrl" pkg="gripper_controls" type="low_lvl_ctrl" output="screen" args="$(arg gripper_namespace)"/>
+  <node name="high_lvl_ctrl" pkg="gripper_controls" type="high_lvl_ctrl" output="screen" args="$(arg gripper_namespace)"/>
+</launch>

@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<robot name="floor_table">
+  <link name="world" />
+
+  <gazebo reference="table">
+    <mu1>0.1</mu1>
+    <mu2>0.1</mu2>
+    <kp>10000000</kp>
+    <kd>1</kd>
+    <minDepth>0.001</minDepth>
+  </gazebo>
+
+  <link name="table">
+    <visual>
+      <geometry>
+	<box size="2 1 0.05" />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+	<box size="2 1 0.05" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="100" />
+      <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100" />
+    </inertial>
+  </link>
+
+  <joint name="fixed" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0" />
+    <parent link="world" />
+    <child link="table" />
+  </joint>
+
+
+  <gazebo reference="table">
+  <material>Gazebo/Wood</material>
+  </gazebo>
+
+</robot>

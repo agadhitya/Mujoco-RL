@@ -1,0 +1,4 @@
+<launch>
+  <rosparam command="load" file="$(find friction_finger_gripper)/config/finger_params.yaml" />
+  <node name="finger_controller" pkg="friction_finger_gripper" type="controller_node" />
+</launch>

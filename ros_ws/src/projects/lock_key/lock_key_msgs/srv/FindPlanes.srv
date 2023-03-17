@@ -1,0 +1,6 @@
+sensor_msgs/PointCloud2 pc2
+---
+sensor_msgs/PointCloud2 key_cloud
+sensor_msgs/PointCloud2 lock_cloud
+sensor_msgs/PointCloud2 lock_plane_cloud
+lock_key_msgs/PlaneCoefficients lock_plane_coeffs

@@ -1,0 +1,17 @@
+<launch>
+  <!-- Arguments -->
+ 
+ 
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="paused" value="true" />
+  </include>
+
+  <!--TO DO: Check issue with block-->
+  <node name="spawn_block_urdf" pkg="gazebo_ros" type="spawn_model"
+  	args="-file $(find lock_key)/desc/block.urdf -urdf -model block" />
+  
+  <!-- <node name="spawn_key_urdf" pkg="gazebo_ros" type="spawn_model"
+  	args="-file $(find lock_key)/desc/key.urdf -urdf -model key -z $(arg table_height) -x $(arg table_center)" /> -->
+
+
+</launch>

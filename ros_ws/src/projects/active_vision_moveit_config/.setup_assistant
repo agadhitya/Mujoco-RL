@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: ref_benchmark
+    relative_path: desc/franka_camera.xacro
+    xacro_args: ""
+  SRDF:
+    relative_path: config/panda_hand_camera.srdf
+  CONFIG:
+    author_name: Sabhari Natarajan
+    author_email: snatarajan@wpi.edu
+    generated_timestamp: 1613858050

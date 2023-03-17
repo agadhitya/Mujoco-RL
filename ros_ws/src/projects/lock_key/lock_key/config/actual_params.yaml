@@ -1,0 +1,106 @@
+##### Key Position #####
+key_goal:
+  # Key grasping position in map frame [meters]
+  # x: 0.444
+  # y: -0.2255
+  # z: 0.1485 #peg: 0.1665, key: 0.165
+  # Key grasping orientation in [radians]
+  # roll: -1.5708 #Hor.: -1.5708, Vertical: 3.1416
+  # pitch: 0.0 #Hor.: 0.7854, Vertical: 0.0
+  # yaw:   0.0    #Hor.: (Panda: 0.0), Vertical: (Gazebo:0.0, Panda: -0.7854)
+  # Distance offsets for pre-grasp [meters]
+  # pre_x_offset_far: 0.0
+  # pre_y_offset_far: -0.1 #Hor.: -0.05, Vertical:0.0
+  # pre_z_offset_far: 0.0 #Hor.: 0.0, Vertical: 0.15
+  # pre_x_offset_close: 0.0
+  # pre_y_offset_close: -0.02 #Hor.: -0.05, Vertical:0.0
+  # pre_z_offset_close: 0.0 #Hor.: 0.0, Vertical: 0.15
+  # Distance offsets for post-grasp [meters]
+  post_x_offset: 0.0
+  post_y_offset: 0.0
+  post_z_offset: 0.3
+  # Max. force when moving to key plane [Newtons]
+  Ft: 2.5 #1.5
+
+##### Padlock Position #####
+padlock_goal:
+  # Padlock 'inserted' position in map frame [meters]
+  # x: 0.5095 #pegboard: 0.5715, padlock: 0.5095
+  # y: 0.2500 #pegboard: 0.1907, padlock: 0.2500
+  # z: 0.13 #pegboard: 0.1665, padlock: 0.2134
+  # Padlock insertion orientation [radians]
+  roll: 3.1416
+  pitch: 0.0
+  yaw: 0.0 #Gazebo:0.0, Panda: -0.7854
+  # Distances offsets for pre-insert [meters]
+  pre_x_offset_far: 0.0
+  pre_y_offset_far: 0.0
+  pre_z_offset_far: 0.2
+  pre_y_offset_close: 0.0
+  pre_x_offset_close: 0.0
+  pre_z_offset_close: 0.03
+  # Distance offsets for post-insert [meters]
+  post_x_offset: 0.0
+  post_y_offset: 0.0
+  post_z_offset: 0.2
+  # Intentional misalignment in X for padlock [meters]
+  x_misalignment: 0.0
+  # Intentional misalignment in Y for padlock [meters]
+  y_misalignment: 0.0
+  # Rotation for turning lock [radians]
+  key_roll: 0.0
+  key_pitch: 0.0
+  key_yaw: -1.0472
+
+##### Object Color Thresholds #####
+hsv: #H: 0-179, S: 0-255, V: 0-255
+  lock:
+    min: [16,10,80] #[40,76,153]
+    max: [55,230,200] #[150,230,204]
+  key:
+    min: [0,0,95]
+    max: [100,255,255]
+
+##### Home Position #####
+home:
+  # Home position in joint space [radians]
+  j1: 0.0
+  j2: -0.785
+  j3: 0.0
+  j4: -2.356
+  j5: 0.0
+  j6: 1.57
+  j7: 0.784
+
+##### Spiral Insertion #####
+spiral:
+  # Max. force when moving to insertion plane [Newtons]
+  Ft: 0.7 #1.5, 2.0
+  # Max. wrist force during spiral [Newtons]
+  Fd: 4.0
+  # Max. insertion force during final insert phase [Newtons]
+  Fi: 5.0 #pegboard: 1.5, padlock: 4.5
+  # Max. torque in X during spiral [Newton-meters]
+  Tx: 1.5 #0.5
+  # Max. Torque in Y during spiral [Newton-meters]
+  Ty: 1.5 #0.5
+  # Max. distance for EE to move in Z [meters]
+  delta_max: 0.2
+  # Distance to move EE in Z each step during plane detection [meters]
+  delta_step: 0.00075
+  # Distance to move EE in Z each step during final insert [meters]
+  delta_step_final: 0.003 #0.005
+  # Initial distance from spiral origin [meters]
+  a: 0.0
+  # Distance between spiral turns [meters]
+  b: 0.000005
+  # Number of points in spiral [-]
+  nmax: 500.0 #Should be double data type
+  # Number of spiral rotations [-]
+  rot: 5.0 #Should be double data type
+  # Number of force-torque samples to take before insertion [-]
+  ft_samples: 50
+  # Sleep time between force-torque samples [seconds]
+  ft_sleep: 0.05
+  # Minimum downward (negative) spiral force for detecting padlock/hole [Newtons]
+  min_spiral_force: -1.5 # pegboard: -0.6, padlock: -2.0

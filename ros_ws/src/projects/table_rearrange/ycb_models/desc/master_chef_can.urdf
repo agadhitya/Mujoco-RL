@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<robot name="master_chef_can">
+  <link name="world" />
+
+  <link name="master_chef_can">
+    <visual>
+      <geometry>
+	<mesh filename="package://ycb_models/mesh/master_chef_can/textured.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+	<mesh filename="package://ycb_models/mesh/master_chef_can/textured.dae" />
+      </geometry>
+    </collision>
+    <!-- PLACEHOLDER VALUES -->
+    <inertial>
+      <origin xyz="-0.0170707 -0.0097629 0.0705842" rpy="0 0 0" />
+      <mass value="0.001" />
+      <inertia ixx="0.226591e-5" ixy="0.000099e-5" ixz="-0.000141e-5"
+	       iyy="0.226129e-5" iyz="0.000048e-5"
+	       izz="0.132075e-5" />
+    </inertial>
+  </link>
+
+  <joint name="table_master_chef_can" type="floating">
+    <origin rpy="0 0 0" xyz="0 0 0" />
+    <parent link="world" />
+    <child link="master_chef_can" />
+  </joint>
+
+</robot>

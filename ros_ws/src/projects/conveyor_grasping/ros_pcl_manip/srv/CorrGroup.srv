@@ -1,0 +1,11 @@
+sensor_msgs/PointCloud2 model
+sensor_msgs/PointCloud2 scene
+bool invariant
+float32 model_ss
+float32 scene_ss
+float32 rf_rad
+float32 descr_rad
+float32 cg_size
+float32 cg_thresh
+---
+geometry_msgs/Pose[] detectedModels

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>randomizer</name>
+  <version>0.0.0</version>
+  <description>The randomizer package</description>
+  <maintainer email="fadi@todo.todo">fadi</maintainer>
+  <license>TODO</license>
+
+  <build_depend>message_generation</build_depend>
+  <build_export_depend>message_generation</build_export_depend>
+  <exec_depend>message_runtime</exec_depend>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roscpp</build_depend>
+  <build_export_depend>roscpp</build_export_depend>
+  <exec_depend>roscpp</exec_depend>
+
+</package>

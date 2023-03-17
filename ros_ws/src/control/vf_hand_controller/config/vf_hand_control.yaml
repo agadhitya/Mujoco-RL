@@ -1,0 +1,22 @@
+# namespace
+vf_hand:
+
+    # effort controllers for torque control
+    r_finger_effort:
+        type: effort_controllers/JointEffortController
+        joint: J1
+        pid: {p: 10, d: 0.1, i: 0}
+    l_finger_effort:
+        type: effort_controllers/JointEffortController
+        joint: J2
+        pid: {p: 10, d: 0.1, i: 0}
+
+    # position controllers
+    r_finger_position:
+        type: effort_controllers/JointPositionController
+        joint: J1
+        pid: {p: 10, d: 0.1, i: 0}
+    l_finger_position:
+        type: effort_controllers/JointPositionController
+        joint: J2
+        pid: {p: 10, d: 0.1, i: 0}

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Franka robot with a camera attached -->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="panda_hand_camera">
+  <!-- Include xacro files -->
+  <xacro:include filename="$(find franka_description)/robots/panda_arm_hand_lockkey.xacro"/>
+    <link name="end_effector_link" />
+  <joint name="end_joint" type="fixed">
+    <parent link="panda_hand" />
+    <child link="end_effector_link" />
+    <!-- TF MUST BE UPDATED-->
+    <origin xyz="0 0 0.1034" rpy="0 0 0" />
+  </joint>
+</robot>

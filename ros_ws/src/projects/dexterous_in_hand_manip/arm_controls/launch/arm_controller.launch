@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+  <!-- load pose parameters -->
+  <group ns="arm_control_params">
+    <rosparam file="$(find arm_controls)/config/arm_control_params.yaml" />
+  </group>
+  <!-- arm controller node -->
+  <node name="arm_ctrl" pkg="arm_controls" type="arm_ctrl" output="screen"/>
+</launch>

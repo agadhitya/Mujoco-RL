@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+  <rosparam file="$(find gripper_controls)/config/js_controller.yaml" command="load" />
+
+  <node name="js_controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="joint_state_controller" ns="/vf_hand"/>
+</launch>

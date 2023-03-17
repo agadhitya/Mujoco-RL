@@ -1,0 +1,19 @@
+pre_pose: {
+  x_pos: 0.25,
+  y_pos: 0.1,
+  z_pos: 0.5,
+  w_orn: 0.00179342,
+  x_orn: 0.92404,
+  y_orn: 0.382283,
+  z_orn: -0.00269858
+}
+
+vel_scaling: 0.1
+jmp_thrsh: 0.0
+eef_stp: 0.01
+timeout: 1000
+
+topics: {
+  topic1: "netft_data",
+  topic2: "usb_cam/image_raw" 
+}

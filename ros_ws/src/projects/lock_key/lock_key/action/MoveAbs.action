@@ -1,0 +1,13 @@
+# Define the goal
+float64 x
+float64 y
+float64 z
+float64 roll
+float64 pitch
+float64 yaw
+---
+# Define the result
+bool success_failure
+---
+# Define a feedback message
+float32 percent_complete

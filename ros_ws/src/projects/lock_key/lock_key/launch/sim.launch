@@ -1,0 +1,82 @@
+<launch>
+  <!-- Arguments -->
+  <arg name="padlock_x" value="0.61" />
+  <arg name="padlock_y" value="-0.1875" />
+  <arg name="padlock_z" value="0.35" />
+  <arg name="key_x" value="0.55" />
+  <arg name="key_y" value="0.1" />
+  <arg name="key_z" value="0.3" />
+
+  <!-- Set Parameters so other nodes can access them -->  
+  <param name="padlock_goal_x" type="double" value="$(arg padlock_x)" />
+  <param name="padlock_goal_y" type="double" value="$(arg padlock_y)" />
+  <param name="padlock_goal_z" type="double" value="$(arg padlock_z)" />
+  <param name="key_goal_x" type="double" value="$(arg key_x)" />
+  <param name="key_goal_y" type="double" value="$(arg key_y)" />
+  <param name="key_goal_z" type="double" value="$(arg key_z)" />
+
+  <!-- Launch robot_description onto param server -->
+  <param name="robot_description" command="$(find xacro)/xacro --inorder $(find lock_key)/desc/franka_camera.xacro" />
+  <rosparam file="$(find lock_key)/config/panda_control.yaml" command="load" />
+  <!-- <rosparam file="$(find ref_benchmark)/config/panda_control.yaml" command="load" /> -->
+  
+  <!--Add the YAML to the param Server-->
+  <rosparam command = "load" file="$(find lock_key)/config/params.yaml" />
+  
+  <!-- Launch frames for rviz -->
+  <node name="map_frame" pkg="tf" type="static_transform_publisher" args="0 0 0 0 0 0 map world 100" />
+  <node name="frame1_map" pkg="tf" type="static_transform_publisher" args="0 0 0 0 0 0 world panda_link0 100" />
+
+  <!-- Launch gazebo and hardware_interfaces -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find lock_key)/desc/table.world" />
+    <arg name="paused" value="true" />
+  </include>
+  <node name="spawn_franka_urdf" pkg="gazebo_ros" type="spawn_model"
+    args="-param robot_description -urdf -model panda
+          -J panda_joint2 0.0 -J panda_joint6 0.785398
+          -J panda_joint7 0.785398" />
+  <!-- <node name="spawn_table_urdf" pkg="gazebo_ros" type="spawn_model"
+    args="-file $(find lock_key)/desc/surface.urdf -urdf -model table_surface" /> -->
+  <node name="spawn_padlock_urdf" pkg="gazebo_ros" type="spawn_model"
+    args="-file $(find lock_key)/desc/padlock.urdf -urdf -model padlock
+          -x $(arg padlock_x) -y $(arg padlock_y) -z $(arg padlock_z)
+          -R 1.5708 -P 0.0 -Y 0.0" />
+  
+  <node name="spawn_key_urdf" pkg="gazebo_ros" type="spawn_model"
+    args="-file $(find lock_key)/desc/key.urdf -urdf -model key
+          -x $(arg key_x) -y $(arg key_y) -z $(arg key_z)
+          -R 0.0 -P -1.5708 -Y 0.0" />
+
+  <!-- Launch controllers -->
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+  output="screen" args="joint_state_controller gazebo_ros_control" ns="/panda" />
+  
+  <include file="$(find panda_finger_torque_controller)/launch/main.launch" />
+  <!-- <include file="$(find panda_finger_position_controller)/launch/main.launch" /> -->
+  
+  <!-- Start publishing to /tf for rviz -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true">
+    <remap from="joint_states" to="panda/joint_states" />
+  </node>
+
+  <!-- Start rviz -->
+  <!-- <node name="rviz" type="rviz" pkg="rviz" args="-d $(find lock_key)/config/table_scene.rviz" /> -->
+  
+  <!--Start Moveit API Node-->
+  <!-- <node name="moveit_api" type="main_node" pkg="moveit_planner" /> -->
+   <!-- Start moveit -->
+  <include file="$(find ref_benchmark_moveit_config)/launch/move_group.launch" />
+  <!-- launch moveit API -->
+  <node name="moveit_api" type="main_node" pkg="moveit_planner" />
+
+  <!--Start Image Capture Node-->
+  <node name="img_capture" type="img_capture_node" pkg="lock_key" />
+
+  <!--Start Find Key Node-->
+  <node name="find_key" type="find_key_node" pkg="lock_key" />
+
+  <!--Gripper Node-->
+  <node name="gripper" type="gripper_node" pkg="franka_gripper_gazebo"/>
+  <!-- <node name="gripper" type = "pos_grasper_node" pkg="franka_pos_grasping_gazebo"/> -->
+</launch>

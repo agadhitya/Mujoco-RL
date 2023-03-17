@@ -1,0 +1,5 @@
+int64 object
+int64 objPoseCode
+int64 objYaw
+---
+std_msgs/Float32MultiArray stateVec

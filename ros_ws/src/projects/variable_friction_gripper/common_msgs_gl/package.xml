@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package>
+  <name>common_msgs_gl</name>
+  <version>0.0.0</version>
+  <description>The common_msgs package</description>
+  <maintainer email="bcalli@todo.todo">bcalli</maintainer>
+  <license>TODO</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <buildtool_depend>message_generation</buildtool_depend>
+  <run_depend>message_runtime</run_depend>
+
+  <!-- The export tag contains other, unspecified, tags -->
+  <export>
+    <!-- You can specify that this package is a metapackage here: -->
+    <!-- <metapackage/> -->
+
+    <!-- Other tools can request additional information be placed here -->
+
+  </export>
+</package>

@@ -1,0 +1,19 @@
+<launch>
+  <param name="robot_description" command="$(find xacro)/xacro --inorder $(find ref_benchmark)/desc/franka_camera.xacro" />
+  <rosparam file="$(find ref_benchmark)/config/panda_control.yaml" command="load" />
+  <rosparam file="$(find ref_benchmark)/config/mugScene.yaml" command="load" />
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="paused" value="true" />
+  </include>
+  <node name="map_frame" pkg="tf" type="static_transform_publisher" args="0 0 0 0 0 0 map world 100" />
+  <node name="rob_pub" pkg="robot_state_publisher" type="robot_state_publisher">
+    <remap from="/joint_states" to="/panda/joint_states" />
+  </node>
+  <node name="spawn_franka_urdf" pkg="gazebo_ros" type="spawn_model"
+  	args="-param robot_description -urdf -model panda -J panda_joint4 -1.57 -J panda_joint6 1.57 -J panda_joint7 0.785398" />
+  <node name="spawn_mug" pkg="gazebo_ros" type="spawn_model" args="-file $(find ycb_models)/desc/mug.urdf -urdf -model mug -x 0.7" />
+
+  <node name="pcl_node" pkg="ros_pcl_manip" type="ros_pcl_manip_node" output="screen" />
+  <include file="$(find panda_moveit_controller)/launch/main.launch" />
+</launch>

@@ -1,0 +1,26 @@
+l1: 0
+l2: 0
+th1: 0
+th2: 0
+lam: 1
+kp: 0.1
+z: 0.1
+
+
+const_vel_exp: {
+  vel: 0.5,
+}
+
+owi_controller: {
+  goal_x: 250,
+  goal_y: 300,
+  # start_x: 150,
+  # start_y: 200,
+  start_x: 185,
+  start_y: 42,
+}
+
+sys_id: {
+  j1_vel: 0.0,
+  j2_vel: -0.5,
+}

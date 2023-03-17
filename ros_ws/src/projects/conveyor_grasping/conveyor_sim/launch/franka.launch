@@ -1,0 +1,11 @@
+<launch>
+  <param name="robot_description" command="$(find xacro)/xacro --inorder $(find ref_benchmark)/desc/franka_camera.xacro" />
+  <rosparam file="$(find ref_benchmark)/config/panda_control.yaml" command="load" />
+
+  <node name="spawn_franka_urdf" pkg="gazebo_ros" type="spawn_model"
+  	args="-param robot_description -urdf -model panda -J panda_joint4 -1.57 -J panda_joint6 1.57 -J panda_joint7 0.785398" />
+
+  <include file="$(find panda_moveit_controller)/launch/main.launch" />
+  <include file="$(find panda_finger_torque_controller)/launch/main.launch" />
+  <include file="$(find ref_benchmark_moveit_config)/launch/move_group.launch" />
+</launch>

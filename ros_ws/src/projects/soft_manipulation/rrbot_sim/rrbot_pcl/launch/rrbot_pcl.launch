@@ -1,0 +1,8 @@
+<launch>
+<node name="get_cloud_node" pkg="rrbot_pcl" type="get_cloud_node" respawn="false" output="screen"/>
+<node name="rrbot_pcl_node" pkg="rrbot_pcl" type="rrbot_pcl_node" respawn="false" output="screen"/>
+<node name="process_cloud_node" pkg="rrbot_pcl" type="process_cloud_node" respawn="false" output="screen"/>
+<node name="concave_hull_node" pkg="rrbot_pcl" type="concave_hull_node" respawn="false" output="screen"/>
+<node name="skeletonization_node" pkg="rrbot_pcl" type="skeletonization.py" output="screen" />
+<node name="projection_node" pkg="rrbot_pcl" type="project_cloud_node" respawn="false" output="screen" />
+</launch>

@@ -1,0 +1,37 @@
+<?xml version="1.0" ?>
+<launch>
+  <!-- If needed, broadcast static tf for robot root -->
+  <node pkg="tf2_ros" type="static_transform_publisher" name="virtual_joint_broadcaster_1" args="0 0 0 0 0 0 world panda_link0" />
+
+  <arg name="robot_ip" />
+  <arg name="load_gripper" default="true" />
+  <arg name="launch_rviz" default="true" />
+
+  <include file="$(find franka_control)/launch/franka_control.launch" >
+    <arg name="robot_ip" value="$(arg robot_ip)" />
+    <arg name="load_gripper" value="$(arg load_gripper)" />
+  </include>
+
+  <include file="$(find panda_moveit_config)/launch/panda_moveit.launch">
+    <arg name="load_gripper" value="$(arg load_gripper)" />
+  </include>
+
+  <!-- Need lower framerate to actually receive images, USB is slow -->
+  <include file="$(find realsense2_camera)/launch/rs_camera.launch">
+    <arg name="color_fps" value="15" />
+    <arg name="depth_fps" value="15" />
+    <arg name="filters" value="pointcloud" />
+  </include>
+
+  <!-- Transform for the camera frame -->
+  <!-- <node pkg="tf2_ros" type="static_transform_publisher" name="camera_frame_publisher" args="0.03839 -0.03839 0.02 -0.7853 -1.57 3.14159265 panda_link8 camera_link" /> -->
+  <!-- Corrective angle for droop-->
+  <node pkg="tf2_ros" type="static_transform_publisher" name="camera_frame_publisher" args="0.03839 -0.03839 0.022 -0.7853 -1.6307 3.14159265 panda_link8 camera_link" />
+
+  <include file="$(find panda_moveit_config)/launch/moveit_rviz.launch" if="$(arg launch_rviz)" />
+
+  <!-- Launch moveit_planner -->
+  <include file="$(find moveit_planner)/launch/main.launch">
+    <arg name="group_name" value="panda_arm" />
+  </include>
+</launch>

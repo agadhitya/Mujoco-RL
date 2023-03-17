@@ -1,0 +1,17 @@
+urdf_file_name: "updated_panda_arm.xacro"
+fixed_frame: "panda_link0"
+joint_names: [ [ "panda_joint1", "panda_joint2", "panda_joint3", "panda_joint4", "panda_joint5", "panda_joint6", "panda_joint7", "panda_joint8", "panda_hand_joint" ] ]
+joint_ordering: [ "panda_joint1", "panda_joint2", "panda_joint3", "panda_joint4", "panda_joint5", "panda_joint6", "panda_joint7" ]
+ee_fixed_joints: [ "panda_hand_joint" ]
+starting_config: [ 0.0, 0.0, 0.0, -0.500587, 0.0, 1.523299, 0.0 ]
+collision_file_name: "collision_example_franka_mer_lab.yaml"
+collision_nn_file: "updated_panda_arm_nn"
+path_to_src: "/home/ajay/kaam/DR/catkin_ws_dr/src/mer_lab/ros_ws/src/relaxed_ik/src"
+axis_types: [ [ "z", "z", "z", "z", "z", "z", "z" ] ]
+velocity_limits: [ 2.175, 2.175, 2.175, 2.175, 2.61, 2.61, 2.61 ]
+joint_limits: [ [-2.8973,2.8973], [-1.7628,1.7628], [-2.8973,2.8973], [-3.0718,-0.0698], [-2.8973,2.8973], [-0.0175,3.7525], [-2.8973,2.8973] ]
+displacements: [ [ [0.0,0.0,0.0], [0.0,-0.316,0.0], [0.0825,0.0,0.0], [-0.0825,0.384,0.0], [0.0,0.0,0.0], [0.088,0.0,0.0], [0.0,0.0,0.107], [0.0,0.0,0.0], [0.0,0.0,0.0] ] ]
+disp_offsets: [ [0.0,0.0,0.333] ]
+rot_offsets: [ [ [0.0,0.0,0.0], [-1.57,0.0,0.0], [1.57,0.0,0.0], [1.57,0.0,0.0], [-1.57,0.0,0.0], [1.57,0.0,0.0], [1.57,0.0,0.0], [0.0,0.0,0.0], [0.0,0.0,0.0], [0.0,0.0,0.0] ] ]
+joint_types: [ [ "revolute", "revolute", "revolute", "revolute", "revolute", "revolute", "revolute", "fixed", "fixed" ] ]
+joint_state_define_func_file: "updated_panda_arm_joint_state_define"

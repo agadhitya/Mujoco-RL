@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+  <!-- load pose parameters -->
+  <group ns="arm_action_params">
+    <rosparam file="$(find manipulation_planning)/config/arm_action_params.yaml" />
+  </group>
+  <!-- arm controller node -->
+  <node name="franka_acts" pkg="manipulation_planning" type="franka_acts" output="screen"/>
+</launch>

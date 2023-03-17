@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+
+  <!-- load controller parameters -->
+  <rosparam file="$(find vf_hand_controller)/config/vf_hand_control.yaml" command="load" />
+
+  <!-- Position controllers are spawned as default -->
+  <node name="vf_controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="r_finger_position l_finger_position" ns="/vf_hand"/>
+
+  <!-- Effort controllers are loaded with flag stopped -->
+  <node name="vf_controller_loader" pkg="controller_manager" type="spawner" output="screen" args="--stopped l_finger_effort r_finger_effort" ns="/vf_hand"/>
+
+</launch>

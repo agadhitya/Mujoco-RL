@@ -1,0 +1,6 @@
+<launch>
+  <arg name="group_name" default="arm" />
+
+  <node name="moveit_planner" pkg="moveit_planner" type="main_node" args="$(arg group_name)" />
+  <node name="pose_node" pkg="moveit_planner" type="pose_node" />
+</launch>

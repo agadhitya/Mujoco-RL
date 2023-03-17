@@ -1,0 +1,19 @@
+ycb_models:
+  names:
+    - mug
+    - master_chef_can
+  poses:
+    mug:
+      position:
+        x: 0.5
+        y: 0
+        z: 0.08
+    master_chef_can:
+      position:
+        x: 0.65
+        y: 0.15
+        z: 0.0
+randomizer:
+  names:
+    - mug::mug
+    - master_chef_can::master_chef_can

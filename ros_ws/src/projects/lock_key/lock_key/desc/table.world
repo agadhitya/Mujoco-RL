@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<sdf version="1.5">
+  <world name="lock_key_world">
+    <include>
+      <uri>model://sun</uri>
+    </include>
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+    <physics>
+      <updateRate>0</updateRate>
+      <max_step_size>0.0001</max_step_size>
+    </physics>
+  </world>
+  <!-- <scene>
+  <shadows>0</shadows>
+  </scene> -->
+</sdf>
+<!-- <physics type="ode">   <!--added ode since the physics tag needs a type-->
+      <!-- <updateRate>0</updateRate> --> <!-- The update rate tag is not recognized -->
+      <max_step_size>0.001</max_step_size> <!--increased max step size since 0.0001 makes it toooo slow with ode-->
+    </physics> -->

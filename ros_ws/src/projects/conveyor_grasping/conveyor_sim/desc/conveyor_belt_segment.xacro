@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="conveyor_segment">
+  <xacro:arg name="conveyor_width" default="0.4" />
+  <xacro:arg name="conveyor_length" default="1.0" />
+  <xacro:arg name="conveyor_segment_length" default="0.05" />
+  <xacro:arg name="conveyor_wall_height" default="0.1" />
+  <xacro:arg name="conveyor_speed" default="0.3" />
+  <xacro:arg name="conveyor_root" default="0.0" />
+
+  <xacro:macro name="conveyor_segment_wall" params="name">
+    <link name="${name}">
+      <visual>
+  	<geometry>
+  	  <box size="0.05 $(arg conveyor_segment_length) $(arg conveyor_wall_height)" />
+  	</geometry>
+      </visual>
+      <collision>
+  	<geometry>
+  	  <box size="0.05 $(arg conveyor_segment_length) $(arg conveyor_wall_height)" />
+  	</geometry>
+      </collision>
+    </link>
+    <inertia>
+      <inertial>
+  	<mass value="10" />
+  	<inertia ixx="1.0" ixy="0.0" ixz="0.0"
+  		 iyy="1.0" iyz="0.0"
+  		 izz="1.0" />
+      </inertial>
+    </inertia>
+  </xacro:macro>
+  <xacro:macro name="conveyor_segment_wall_joint" params="name child_link width height reflect">
+    <joint name="${name}" type="fixed">
+      <parent link="conveyor_segment_base" />
+      <child link="${child_link}" />
+      <origin xyz="${reflect*(width/2 + 0.025)} 0 ${height/2 - 0.025}" rpy="0 0 0" />
+    </joint>
+  </xacro:macro>
+
+  <link name="world" />
+  <link name="conveyor_segment_base">
+    <visual>
+      <geometry>
+  	<box size="$(arg conveyor_width) $(arg conveyor_segment_length) 0.05" />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+    	<box size="$(arg conveyor_width) $(arg conveyor_segment_length) 0.05" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="10" />
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+  	       iyy="1.0" iyz="0.0"
+  	       izz="1.0" />
+    </inertial>
+  </link>
+  <xacro:conveyor_segment_wall name="conveyor_segment_left_wall" />
+  <xacro:conveyor_segment_wall name="conveyor_segment_right_wall" />
+
+  <xacro:conveyor_segment_wall_joint name="left_wall_joint"
+  				     child_link="conveyor_segment_left_wall"
+  				     width="$(arg conveyor_width)"
+				     height="$(arg conveyor_wall_height)"
+				     reflect="1" />
+  <xacro:conveyor_segment_wall_joint name="right_wall_joint"
+  				     child_link="conveyor_segment_right_wall"
+  				     width="$(arg conveyor_width)"
+				     height="$(arg conveyor_wall_height)"
+				     reflect="-1" />
+  <joint name="base_joint" type="prismatic">
+    <limit lower="-100" upper="100" velocity="100" effort="100" />
+    <parent link="world" />
+    <child link="conveyor_segment_base" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+  </joint>
+
+  <gazebo>
+    <plugin name="conveyor_plugin" filename="libConveyorBeltPlugin.so">
+      <speed>$(arg conveyor_speed)</speed>
+      <length>$(arg conveyor_length)</length>
+      <root>$(arg conveyor_root)</root>
+    </plugin>
+  </gazebo>
+  
+</robot>

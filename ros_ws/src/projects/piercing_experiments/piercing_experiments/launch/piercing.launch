@@ -1,0 +1,17 @@
+<launch>
+<!--This Launch file launches the piercing experiment framework-->
+
+<!--This puts the yaml file on the param server-->
+<rosparam command = "load" file="$(find piercing_experiments)/config/params.yaml" />
+
+<!-- This connects to the webcam-->
+<include file = "$(find usb_cam)/launch/usb_cam-test.launch" />
+
+<!--This connects to the sensor-->
+<node name = "ft_sensor" pkg = "netft_utils" type = "netft_node" args ="192.168.1.1"/>
+
+<!--This launches nodes in the piercing pkg-->
+<node name = "move" pkg = "piercing_experiments" type = "move_node" />
+<node name = "main_pierce" pkg = "piercing_experiments" type = "main_pierce_node" />
+<node name = "record_sensors" pkg = "piercing_experiments" type = "record_node" output = "screen" />
+</launch>

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>vf-hand_description</name>
+  <version>1.0.0</version>
+  <description>
+    <p>vf-hand_description contains URDF files and meshes of variable friction hand robots</p>
+  </description>
+  <author>TODO</author>
+  <maintainer email="TODO@email.com" />
+  <license>BSD</license>
+  <buildtool_depend>catkin</buildtool_depend>
+  <exec_depend>xacro</exec_depend>
+</package>

@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<robot name="mustard_bottle">
+  <link name="world" />
+
+  <link name="mustard_bottle">
+    <visual>
+      <geometry>
+	<mesh filename="package://ycb_models/mesh/mustard_bottle/textured.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+	<mesh filename="package://ycb_models/mesh/mustard_bottle/textured.dae" />
+      </geometry>
+    </collision>
+    <!-- PLACEHOLDER VALUES -->
+    <inertial>
+      <origin xyz="-0.0150543 -0.0231094 0.0750423" rpy="0 0 0" />
+      <mass value="0.01" />
+      <inertia ixx="0.148754e-5" ixy="0.007699e-5" ixz="-0.000505e-5"
+	       iyy="0.163711e-5" iyz="0.000715e-5"
+	       izz="0.042935e-5" />
+    </inertial>
+  </link>
+
+  <joint name="table_mustard_bottle" type="floating">
+    <origin rpy="0 0 0" xyz="0 0 0" />
+    <parent link="world" />
+    <child link="mustard_bottle" />
+  </joint>
+
+</robot>

@@ -1,0 +1,8 @@
+<launch>
+   <arg name= "ARG_NAME" />
+   <!-- <arg name = "fpath" default = "/home/agandhi2/FF/" /> -->
+   <node pkg="rosbag" type="play" name="rosbag" required="true" args="$(arg ARG_NAME)"/>
+   <node name="extract" pkg="image_view" type="extract_images" respawn="false" required="true" output="screen" cwd="ROS_HOME">
+   <remap from="image" to="object_trajectory"/>
+   </node>
+</launch>

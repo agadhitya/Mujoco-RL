@@ -1,0 +1,15 @@
+<launch>
+  <arg name="table_height" value="0.28" />
+  <arg name="table_center" value="0.5" />
+  <arg name="table_width" value="0.4" />
+  <arg name="table_length" value="0.4" />
+
+  <rosparam command="load" file="$(find pose_estimator)/config/objects.yaml" />
+
+  <node name="table_randomizer" pkg="randomizer" type="randomizer_node"
+  	args="$(arg table_height) $(arg table_center) $(arg table_width) $(arg table_length)" />
+  <node name="pose_estimator" pkg="pose_estimator" type="obtain_pose_gazebo_node" />
+  <node name="moveit_planner" pkg="moveit_planner" type="main_node" output="screen" />
+  <node name="franka_gripper_node" pkg="franka_gripper_gazebo" type="gripper_node" />
+  <node name="ui_node" pkg="ref_benchmark" type="ref_benchmark_node" output="screen" />
+</launch>

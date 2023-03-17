@@ -1,0 +1,42 @@
+<launch>
+  <!-- Parameters -->
+  <arg name="width" default="0.4" />
+  <arg name="length" default="1" />
+  <arg name="speed" default="0.1" />
+  <arg name="seg_length" default="0.05" />
+  <arg name="wall_height" default="0.1" />
+  <arg name="y" default="0.0" />
+  <arg name="x" default="0.0" />
+  <arg name="z" default="0.0" />
+
+  <!-- Set parameters from the args supplied -->
+  <param name="/conveyor/width" type="double" value="$(arg width)" />
+  <param name="/conveyor/length" type="double" value="$(arg length)" />
+  <param name="/conveyor/speed" type="double" value="$(arg speed)" />
+  <param name="/conveyor/seg_length" type="double" value="$(arg seg_length)" />
+  <param name="/conveyor/wall_height" type="double" value="$(arg wall_height)" />
+  <param name="/conveyor/y" type="double" value="$(arg y)" />
+  <param name="/conveyor/x" type="double" value="$(arg x)" />
+  <param name="/conveyor/z" type="double" value="$(arg z)" />
+  <param name="/conveyor/description"
+	 command="$(find xacro)/xacro --inorder $(find conveyor_sim)/desc/conveyor_belt_segment.xacro
+		  conveyor_width:=$(arg width) conveyor_length:=$(arg length)
+		  conveyor_segment_length:=$(arg seg_length) conveyor_wall_height:=$(arg wall_height)
+		  conveyor_speed:=$(arg speed) conveyor_root:=$(arg y)" />
+
+  <!-- Load robot description -->
+  <param name="robot_description"
+	 command="$(find xacro)/xacro --inorder $(find ref_benchmark)/desc/franka_camera.xacro" />
+
+  <!-- Load all model urdfs -->
+  <param name="/spawner/urdfs/mug" textfile="$(find ycb_models)/desc/mug.urdf" />
+
+  <!-- Start gazebo -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="paused" value="true" />
+    <arg name="extra_gazebo_args" value="--verbose" />
+  </include>
+
+  <!-- Load conveyor segment spawner node -->
+  <node name="spawn_conveyor_segments" pkg="conveyor_sim" type="conveyor_sim_node" />
+</launch>

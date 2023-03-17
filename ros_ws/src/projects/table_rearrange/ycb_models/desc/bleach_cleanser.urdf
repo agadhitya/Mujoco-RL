@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<robot name="bleach_cleanser">
+  <link name="world" />
+
+  <link name="bleach_cleanser">
+    <visual>
+      <geometry>
+	<mesh filename="package://ycb_models/mesh/bleach_cleanser/textured.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+	<mesh filename="package://ycb_models/mesh/bleach_cleanser/textured.dae" />
+      </geometry>
+    </collision>
+    <!-- PLACEHOLDER VALUES -->
+    <inertial>
+      <origin xyz="-0.0171389 0.0115744 0.099698" rpy="0 0 0" />
+      <mass value="0.01" />
+      <inertia ixx="0.423421e-5" ixy="0.000343e-5" ixz="-0.024506e-5"
+	       iyy="0.456609e-5" iyz="0.000213e-5"
+	       izz="0.078261e-5" />
+    </inertial>
+  </link>
+
+  <joint name="table_bleach_cleanser" type="floating">
+    <origin rpy="0 0 0" xyz="0 0 0" />
+    <parent link="world" />
+    <child link="bleach_cleanser" />
+  </joint>
+
+</robot>

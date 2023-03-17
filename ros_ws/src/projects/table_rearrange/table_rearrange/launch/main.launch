@@ -1,0 +1,37 @@
+<launch>
+  <!-- Arguments -->
+  <arg name="table_height" default="0.28" />
+  <arg name="table_center" default="0.5" />
+  <arg name="table_width" default="1" />
+  <arg name="table_length" default="0.6" />
+
+  <!-- Launch robot_description onto param server -->
+  <param name="robot_description" command="$(find xacro)/xacro --inorder $(find ref_benchmark)/desc/franka_camera.xacro" />
+  <rosparam file="$(find ref_benchmark)/config/panda_control.yaml" command="load" />
+  <rosparam file="$(find ref_benchmark)/config/mugScene.yaml" command="load" />
+
+  <!-- Launch frames for rviz -->
+  <node name="map_frame" pkg="tf" type="static_transform_publisher" args="0 0 0 0 0 0 map world 100" />
+  <node name="frame1_map" pkg="tf" type="static_transform_publisher" args="0 0 0 0 0 0 world panda_link0 100" />
+
+  <!-- Launch gazebo and hardware_interfaces -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find ref_benchmark)/desc/table.world" />
+    <arg name="paused" value="true" />
+  </include>
+  <!-- <node name="spawn_franka_urdf" pkg="gazebo_ros" type="spawn_model" -->
+  <!-- 	args="-param robot_description -urdf -model panda -J panda_joint2 0.0 -J panda_joint6 0.785398 -J panda_joint7 0.785398" /> -->
+  <node name="spawn_franka_urdf" pkg="gazebo_ros" type="spawn_model"
+  	args="-param robot_description -urdf -model panda -J panda_joint4 -1.57 -J panda_joint6 1.57 -J panda_joint7 0.785398" />
+  <node name="spawn_table_urdf" pkg="gazebo_ros" type="spawn_model"
+  	args="-file $(find ref_benchmark)/desc/table_surface.urdf -urdf -model table_surface" />
+  <!-- Launch scene -->
+  <node name="scene_spawner" pkg="ycb_models" type="object_scene_spawner" />
+  
+  <!-- Launch controllers -->
+  <include file="$(find panda_moveit_controller)/launch/main.launch" />
+  <include file="$(find panda_finger_torque_controller)/launch/main.launch" />
+
+  <!-- Start moveit -->
+  <include file="$(find ref_benchmark_moveit_config)/launch/move_group.launch" />
+</launch>

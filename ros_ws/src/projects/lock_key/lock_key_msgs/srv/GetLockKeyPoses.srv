@@ -1,0 +1,3 @@
+---
+geometry_msgs/PoseStamped key_pose
+geometry_msgs/PointStamped lock_point

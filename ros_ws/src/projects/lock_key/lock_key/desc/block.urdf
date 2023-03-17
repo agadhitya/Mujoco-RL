@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<robot name="block">
+  <link name="world" />
+
+  <link name="block">
+    <visual>
+      <geometry>
+	<mesh filename="package://lock_key/mesh/block.STL" />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+	<mesh filename="package://lock_key/mesh/block.STL" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="100" />
+      <inertia ixx="0.000002" ixy="0" ixz="0"
+	       iyy="0.000002" iyz="0"
+	       izz="0.000002" />
+    </inertial>
+  </link>
+  <gazebo reference = "block">
+  <material> Gazebo/White</material>
+  </gazebo>
+  <joint name="table_block" type="floating">
+    <origin rpy="0 0 0" xyz="0.050000 0.050000 0.050000" />
+    <parent link="world" />
+    <child link="block" />
+  </joint>
+
+</robot>
+<!-- Inertial Tensor of block from meshlab when scaled, multiply by 10^-5
+| 0.166667 0.000000 0.000000 |
+| 0.000000 0.166667 0.000000 |
+| 0.000000 0.000000 0.166667 | -->

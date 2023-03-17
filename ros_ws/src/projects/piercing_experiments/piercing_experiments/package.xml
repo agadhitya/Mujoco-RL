@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>piercing_experiments</name>
+  <version>0.0.0</version>
+  <description>The piercing_experiments package</description>
+
+  <maintainer email="agandhi2@todo.todo">agandhi2</maintainer>
+  <license>TODO</license>
+
+  <build_depend>message_generation</build_depend>
+  <exec_depend>message_runtime</exec_depend>
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>rospy</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_export_depend>roscpp</build_export_depend>
+  <build_export_depend>rospy</build_export_depend>
+  <build_export_depend>std_msgs</build_export_depend>
+  <exec_depend>roscpp</exec_depend>
+  <exec_depend>rospy</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <depend>piercing_experiments_msgs</depend>
+  <!-- <build_depend>piercing_experiments_msgs</build_depend>
+  <exec_depend>piercing_experiments_msgs</exec_depend> -->
+
+  <export>
+    <!-- Other tools can request additional information be placed here -->
+
+  </export>
+</package>

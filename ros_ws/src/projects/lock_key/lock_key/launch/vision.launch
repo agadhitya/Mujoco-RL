@@ -1,0 +1,51 @@
+<launch>
+  <arg name="serial_no"             default=""/>
+  <arg name="json_file_path"        default=""/>
+  <arg name="camera"                default="camera"/>
+
+  <!-- Red Mount: Broadcast Static Transform between panda_hand and camera_link (y: -0.0175)-->
+  <!-- <node pkg="tf2_ros" type="static_transform_publisher" name="hand_to_camera" args="0.067 -0.0275 0 3.14159 -1.57079 0 panda_hand camera_link" /> -->
+  <!-- Green Mount: Broadcast Static Transform between panda_hand and camera_link-->
+  <node pkg="tf2_ros" type="static_transform_publisher" name="realsense_link_broadcaster"
+        args="0.040 -0.0175 0.066 3.1415 -1.571 0 panda_hand camera_link" />
+
+  <group ns="$(arg camera)">
+    <include file="$(find realsense2_camera)/launch/includes/nodelet.launch.xml">
+      <arg name="serial_no"         value="$(arg serial_no)"/>
+      <arg name="json_file_path"    value="$(arg json_file_path)"/>
+      <arg name="depth_width"       value="640"/>
+      <arg name="depth_height"      value="480"/>
+      <arg name="depth_fps"         value="30"/>
+      <arg name="color_width"       value="640"/>
+      <arg name="color_height"      value="480"/>
+      <arg name="color_fps"         value="30"/>
+      <arg name="enable_depth"      value="true"/>
+      <arg name="enable_color"      value="true"/>
+      <arg name="enable_infra1"     value="false"/>
+      <arg name="enable_infra2"     value="false"/>
+      <arg name="enable_fisheye"    value="false"/>
+      <arg name="enable_gyro"       value="false"/>
+      <arg name="enable_accel"      value="false"/>
+      <arg name="enable_pointcloud" value="true"/>
+      <arg name="enable_sync"       value="true"/>
+      <arg name="tf_prefix"         value="$(arg camera)"/>
+      <arg name="align_depth"       value="true"/>
+
+      <arg name="initial_reset"     value="true"/>
+    </include>
+
+    <node pkg="nodelet" type="nodelet" name="nodelet_manager" args="manager" />
+
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find lock_key)/config/vision.rviz" required="true" />
+  </group>
+
+  <!-- Starts PCL find_planes service server (Returns lock and key point clouds.) -->
+  <node pkg="lock_key" type="find_planes_node" name="find_clouds_server"/>
+  <!-- Start plane_finder_client (Calls find_planes, publishes point clouds, and sets lock/key parameters.) -->
+  <node pkg="lock_key" type="plane_finder_client.py" name="plane_finder_client"/>
+  <!-- Starts key_finder pub/sub node (Publishes key_point, lock_point, and finder_image.) -->
+  <node pkg="lock_key" type="key_finder_node.py" name="lock_and_key_points_node"/>
+  <!-- Start lock_and_key_poses service server (Average 30 samples and convert to map frame) -->
+  <node pkg="lock_key" type="lockkey_finder_srv.py" name="lock_and_key_poses_server"/>
+
+</launch>

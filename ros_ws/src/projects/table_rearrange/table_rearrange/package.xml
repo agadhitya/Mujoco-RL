@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>ref_benchmark</name>
+  <version>0.0.0</version>
+  <description>The ref_benchmark package</description>
+
+  <maintainer email="fadi@todo.todo">fadi</maintainer>
+  <license>TODO</license>
+  
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>roscpp</build_depend>
+  <build_depend>moveit_planner</build_depend>
+  <build_depend>randomizer</build_depend>
+  <build_depend>pcl_recorder</build_depend>
+  <build_depend>pose_estimator</build_depend>
+
+  <exec_depend>roscpp</exec_depend>
+  <exec_depend>moveit_planner</exec_depend>
+  <exec_depend>randomizer</exec_depend>
+  <exec_depend>ycb_models</exec_depend>
+  <exec_depend>pcl_recorder</exec_depend>
+  <exec_depend>pcl_processor</exec_depend>
+  <exec_depend>pose_estimator</exec_depend>
+
+  <!-- The export tag contains other, unspecified, tags -->
+  <export>
+  </export>
+</package>
